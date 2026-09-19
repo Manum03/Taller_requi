@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SINO · Sistema de Causación de Ingresos No Operacionales</title>
+<style>
+/* ============================================================
+   SINO — Sistema de Causación de Ingresos No Operacionales
+   Hoja de estilos única. Sin dependencias externas.
+   ============================================================ */
+:root{
+  --navy-900:#0b1930;
+  --navy-800:#122444;
+  --navy-700:#17305c;
+  --navy-600:#1d3d75;
+  --blue-600:#2456c9;
+  --blue-500:#3568e8;
+  --blue-100:#e8eefc;
+  --teal-600:#0f8f72;
+  --teal-100:#e2f6f0;
+  --amber-600:#b8790a;
+  --amber-100:#fdf1dd;
+  --red-600:#c0392b;
+  --red-100:#fbe6e3;
+  --gray-50:#f4f6f9;
+  --gray-100:#eef1f5;
+  --gray-200:#dfe4ea;
+  --gray-300:#c7cfd9;
+  --gray-500:#6b7280;
+  --gray-700:#374151;
+  --gray-900:#1f2937;
+  --radius:8px;
+  --shadow:0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.06);
+  --shadow-lg:0 10px 30px rgba(11,25,48,.18);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--gray-50);
+  color:var(--gray-900);
+  font-size:14px;
+  line-height:1.45;
+}
+button{font-family:inherit;}
+input,select,textarea{font-family:inherit;font-size:13.5px;}
+h1,h2,h3,h4{margin:0 0 4px 0;font-weight:700;color:var(--navy-800);}
+a{color:var(--blue-600);}
+.hidden{display:none !important;}
+.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";}
+.muted{color:var(--gray-500);}
+.small{font-size:12px;}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;}
+.tag-borrador{background:var(--gray-200);color:var(--gray-700);}
+.tag-pendiente{background:var(--amber-100);color:var(--amber-600);}
+.tag-contabilizado{background:var(--teal-100);color:var(--teal-600);}
+.tag-rechazado{background:var(--red-100);color:var(--red-600);}
+.tag-vencida{background:var(--red-100);color:var(--red-600);}
+.tag-activa{background:var(--teal-100);color:var(--teal-600);}
+.tag-role{background:var(--blue-100);color:var(--blue-600);}
+
+/* ---------- Login ---------- */
+#view-login{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(1200px 700px at 15% 10%, var(--navy-700), var(--navy-900) 60%);
+  padding:24px;
+}
+.login-card{
+  width:100%;max-width:920px;background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow-lg);display:grid;grid-template-columns:1.05fr 1fr;
+}
+.login-brand{
+  background:linear-gradient(160deg,var(--navy-800),var(--navy-900));
+  color:#fff;padding:40px 36px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.login-brand h1{color:#fff;font-size:26px;margin-bottom:6px;}
+.login-brand p.tagline{color:#c7d3ec;font-size:13.5px;margin:0;}
+.brand-mark{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+.brand-mark .logo{
+  width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue-500),var(--teal-600));
+  display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px;
+}
+.login-feature{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:12.8px;color:#dbe4f7;}
+.login-feature .ico{flex:0 0 auto;opacity:.9;}
+.login-form-side{padding:40px 38px;display:flex;flex-direction:column;gap:14px;}
+.login-form-side h2{font-size:19px;}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:2px;}
+.field label{font-size:12.3px;font-weight:700;color:var(--gray-700);}
+.field input,.field select,.field textarea{
+  padding:9px 11px;border:1px solid var(--gray-300);border-radius:7px;background:#fbfcfe;outline:none;
+  transition:border-color .12s, box-shadow .12s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--blue-500);box-shadow:0 0 0 3px var(--blue-100);background:#fff;
+}
+.btn{
+  border:none;border-radius:7px;padding:9px 16px;font-weight:700;font-size:13.3px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:7px;justify-content:center;transition:filter .1s, transform .05s;
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--blue-600);color:#fff;}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-primary:disabled{background:var(--gray-300);color:var(--gray-500);cursor:not-allowed;}
+.btn-success{background:var(--teal-600);color:#fff;}
+.btn-success:hover{filter:brightness(1.08);}
+.btn-success:disabled{background:var(--gray-300);color:var(--gray-500);cursor:not-allowed;}
+.btn-danger{background:var(--red-600);color:#fff;}
+.btn-danger:hover{filter:brightness(1.08);}
+.btn-ghost{background:transparent;color:var(--blue-600);border:1px solid var(--gray-300);}
+.btn-ghost:hover{background:var(--gray-100);}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:6px;}
+.btn-block{width:100%;}
+.demo-creds{background:var(--gray-50);border:1px dashed var(--gray-300);border-radius:8px;padding:10px 12px;font-size:11.8px;color:var(--gray-700);}
+.demo-creds b{color:var(--navy-800);}
+.err-msg{background:var(--red-100);color:var(--red-600);border-radius:7px;padding:8px 11px;font-size:12.5px;font-weight:600;}
+.mfa-code-box{
+  background:var(--navy-800);color:#fff;border-radius:9px;padding:14px 16px;text-align:center;
+}
+.mfa-code-box .code{font-size:30px;font-weight:800;letter-spacing:7px;color:#8fd6c1;margin-top:2px;}
+
+/* ---------- App shell ---------- */
+#view-app{display:flex;min-height:100vh;}
+.sidebar{
+  width:246px;flex:0 0 auto;background:var(--navy-900);color:#dbe4f7;
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sidebar-brand{padding:18px 18px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-brand .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue-500),var(--teal-600));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;}
+.sidebar-brand div b{color:#fff;font-size:14.5px;display:block;}
+.sidebar-brand div span{font-size:10.5px;color:#9fb0d3;}
+.nav-group{padding:10px 10px 2px;}
+.nav-group-title{font-size:10.3px;text-transform:uppercase;letter-spacing:.6px;color:#7387ad;padding:8px 10px 4px;font-weight:700;}
+.nav-item{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:13px;color:#c9d4ec;
+  margin-bottom:1px;
+}
+.nav-item .ico{flex:0 0 18px;text-align:center;opacity:.85;}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+.nav-item.active{background:var(--blue-600);color:#fff;}
+.sidebar-foot{margin-top:auto;padding:14px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:11px;color:#8698bd;}
+
+.main-wrap{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;}
+.topbar{
+  height:58px;flex:0 0 auto;background:#fff;border-bottom:1px solid var(--gray-200);
+  display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px;position:sticky;top:0;z-index:20;
+}
+.topbar-left{display:flex;align-items:center;gap:12px;min-width:0;}
+#page-title{font-size:17px;color:var(--navy-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#page-subtitle{font-size:12px;color:var(--gray-500);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.badge-security{
+  display:flex;align-items:center;gap:6px;background:var(--gray-50);border:1px solid var(--gray-200);
+  border-radius:999px;padding:5px 11px;font-size:11.3px;color:var(--gray-700);cursor:pointer;font-weight:600;
+}
+.badge-security:hover{background:var(--gray-100);}
+.user-chip{display:flex;align-items:center;gap:9px;padding:5px 6px 5px 12px;border-radius:999px;background:var(--gray-50);border:1px solid var(--gray-200);}
+.user-chip .av{width:26px;height:26px;border-radius:50%;background:var(--navy-700);color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.user-chip .name{font-size:12.3px;font-weight:700;line-height:1.1;}
+.user-chip .role{font-size:10.5px;color:var(--gray-500);}
+
+.content{flex:1 1 auto;padding:22px 26px 60px;max-width:1400px;width:100%;margin:0 auto;}
+.view{display:none;}
+.view.active{display:block;}
+
+.maint-banner{background:var(--amber-100);color:var(--amber-600);padding:9px 22px;font-size:12.6px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.status-strip{
+  background:var(--navy-900);color:#c9d4ec;font-size:11.3px;padding:6px 22px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+}
+.status-strip .dot{width:7px;height:7px;border-radius:50%;background:var(--teal-600);display:inline-block;margin-right:5px;}
+
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:18px;}
+.card-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;}
+.card-title-row h3{font-size:15px;}
+.grid{display:grid;gap:14px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:1fr 1fr 1fr;}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media (max-width:1080px){.grid-4{grid-template-columns:repeat(2,1fr);}.grid-3{grid-template-columns:1fr 1fr;}}
+@media (max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+
+.kpi{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:15px 16px;box-shadow:var(--shadow);}
+.kpi .kpi-label{font-size:11.5px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.kpi .kpi-value{font-size:24px;font-weight:800;color:var(--navy-800);margin-top:4px;}
+.kpi .kpi-sub{font-size:11.5px;color:var(--gray-500);margin-top:2px;}
+.kpi.warn .kpi-value{color:var(--amber-600);}
+.kpi.danger .kpi-value{color:var(--red-600);}
+.kpi.ok .kpi-value{color:var(--teal-600);}
+
+.table-scroll{overflow-x:auto;border:1px solid var(--gray-200);border-radius:7px;}
+table{border-collapse:collapse;width:100%;font-size:12.6px;background:#fff;}
+table.dense th, table.dense td{padding:7px 10px;}
+thead th{
+  position:sticky;top:0;background:var(--navy-800);color:#eef2fb;text-align:left;font-size:11px;
+  text-transform:uppercase;letter-spacing:.3px;font-weight:700;white-space:nowrap;
+}
+tbody td{border-top:1px solid var(--gray-100);white-space:nowrap;}
+tbody tr:nth-child(even){background:#fafbfd;}
+tbody tr:hover{background:var(--blue-100);}
+td.num, th.num{text-align:right;}
+td.wrap{white-space:normal;}
+.empty-row td{text-align:center;color:var(--gray-500);padding:22px;font-style:italic;}
+
+.filters-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;align-items:flex-end;}
+.filters-bar .field{margin-bottom:0;min-width:140px;}
+
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(11,20,38,.55);display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:20px;
+}
+.modal{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);}
+.modal-head{padding:16px 20px;border-bottom:1px solid var(--gray-200);display:flex;justify-content:space-between;align-items:center;}
+.modal-head h3{font-size:16px;}
+.modal-body{padding:18px 20px;}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--gray-200);display:flex;justify-content:flex-end;gap:8px;}
+.close-x{cursor:pointer;background:none;border:none;font-size:18px;color:var(--gray-500);}
+
+.asiento-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12.6px;}
+.asiento-table th{background:var(--gray-100);text-align:left;padding:6px 9px;font-size:11px;text-transform:uppercase;color:var(--gray-700);}
+.asiento-table td{padding:6px 9px;border-top:1px solid var(--gray-100);}
+.asiento-total-row td{font-weight:800;border-top:2px solid var(--gray-300);}
+.balance-ok{color:var(--teal-600);font-weight:800;}
+.balance-bad{color:var(--red-600);font-weight:800;}
+
+.toast-wrap{position:fixed;bottom:18px;right:18px;display:flex;flex-direction:column;gap:8px;z-index:200;}
+.toast{
+  background:var(--navy-900);color:#fff;padding:11px 16px;border-radius:8px;font-size:12.8px;box-shadow:var(--shadow-lg);
+  display:flex;align-items:center;gap:9px;min-width:230px;animation:toast-in .18s ease-out;
+}
+.toast.success{background:var(--teal-600);}
+.toast.error{background:var(--red-600);}
+.toast.warn{background:var(--amber-600);}
+@keyframes toast-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.help-box{background:var(--blue-100);border:1px solid #cddafb;border-radius:8px;padding:11px 14px;font-size:12.4px;color:var(--navy-700);margin-bottom:14px;}
+.help-box b{color:var(--navy-800);}
+.trace-table td:first-child{font-weight:700;color:var(--navy-800);}
+.printable-only{display:none;}
+
+.progress-outer{background:var(--gray-200);border-radius:999px;height:8px;overflow:hidden;}
+.progress-inner{background:var(--teal-600);height:100%;transition:width .15s;}
+
+.pill-btn-group{display:flex;gap:6px;flex-wrap:wrap;}
+.req-pill{display:inline-block;padding:2px 8px;border-radius:6px;background:var(--gray-100);font-size:11px;font-weight:700;color:var(--gray-700);margin:1px;}
+
+@media (max-width:960px){
+  .sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);transition:transform .18s;z-index:90;box-shadow:var(--shadow-lg);}
+  .sidebar.open{transform:translateX(0);}
+  .content{padding:16px;}
+  .login-card{grid-template-columns:1fr;}
+  .login-brand{padding:26px;}
+}
+.app-footer{flex:0 0 auto;text-align:center;padding:14px 20px 20px;font-size:11.5px;color:var(--gray-500);border-top:1px solid var(--gray-200);background:#fff;}
+.hamburger{display:none;background:none;border:1px solid var(--gray-200);border-radius:7px;padding:7px 10px;cursor:pointer;font-size:15px;}
+@media (max-width:960px){.hamburger{display:inline-flex;}}
+
+@media print{
+  body *{visibility:hidden;}
+  .print-target, .print-target *{visibility:visible;}
+  .print-target{position:absolute;left:0;top:0;width:100%;padding:20px;}
+  .no-print{display:none !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= LOGIN VIEW ======================= -->
+<div id="view-login">
+  <div class="login-card">
+    <div class="login-brand">
+      <div>
+        <div class="brand-mark"><div class="logo">SI</div><div><b style="color:#fff;font-size:15px;">SINO</b><div class="small" style="color:#aebbdc;">Causación de Ingresos No Operacionales</div></div></div>
+        <h1>Registre, apruebe y audite<br>ingresos no operacionales</h1>
+        <p class="tagline">Rendimientos financieros · Arrendamientos · Dividendos · Venta de activos · Indemnizaciones</p>
+        <div class="login-feature"><span class="ico">🔒</span><span>Cifrado en tránsito (TLS 1.2+) y control de acceso basado en roles (RBAC).</span></div>
+        <div class="login-feature"><span class="ico">✔️</span><span>Validación de partida doble: Débitos = Créditos antes de contabilizar.</span></div>
+        <div class="login-feature"><span class="ico">🧾</span><span>Cumplimiento NIIF (reconocimiento por causación) y normativa DIAN.</span></div>
+        <div class="login-feature"><span class="ico">⚡</span><span>Procesamiento por lotes: hasta 10.000 causaciones de cierre en &lt; 5 min.</span></div>
+      </div>
+      <div class="small" style="color:#7387ad;">Manual de Usuario SINO · v1.0 — Prototipo académico (Requisitos, Semestre 4)<br>Creado por: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
+    </div>
+    <div class="login-form-side">
+      <!-- STEP 1: credentials -->
+      <div id="login-step-credentials">
+        <h2>Iniciar sesión</h2>
+        <p class="muted small" style="margin-top:-6px;">Ingrese con su usuario corporativo. Se solicitará un segundo factor (MFA).</p>
+        <div id="login-error" class="err-msg hidden"></div>
+        <div class="field">
+          <label>Usuario</label>
+          <input type="text" id="login-username" placeholder="ej. analista" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="Auth.submitCredentials()">Continuar →</button>
+        <button class="btn btn-ghost btn-block" onclick="Auth.ssoInfo()">🔐 Ingresar con SSO corporativo</button>
+        <div class="demo-creds">
+          <b>Credenciales de demostración</b> (prototipo, sin backend real):<br>
+          👤 <b>admin</b> / Admin#2026 — Administrador<br>
+          👤 <b>analista</b> / Analista#2026 — Analista Contable<br>
+          👤 <b>analista2</b> / Analista#2026 — Analista Contable<br>
+          👤 <b>coordinador</b> / Coordina#2026 — Coordinador (Aprobador)<br>
+          👤 <b>coordinador2</b> / Coordina#2026 — Coordinador (Aprobador)
+        </div>
+      </div>
+      <!-- STEP 2: MFA -->
+      <div id="login-step-mfa" class="hidden">
+        <h2>Verificación en dos pasos</h2>
+        <p class="muted small" style="margin-top:-6px;">Por política de seguridad (MFA) se generó un código de un solo uso. En producción se enviaría por correo/SMS; aquí se muestra en pantalla con fines de demostración.</p>
+        <div class="mfa-code-box">
+          <div class="small" style="color:#9fb0d3;">CÓDIGO DE VERIFICACIÓN (simulado)</div>
+          <div class="code" id="mfa-shown-code">000000</div>
+        </div>
+        <div class="field">
+          <label>Ingrese el código de 6 dígitos</label>
+          <input type="text" id="login-mfa-input" maxlength="6" placeholder="000000">
+        </div>
+        <div id="mfa-error" class="err-msg hidden"></div>
+        <button class="btn btn-primary btn-block" onclick="Auth.submitMfa()">Verificar e ingresar ✓</button>
+        <button class="btn btn-ghost btn-block" onclick="Auth.backToCredentials()">← Volver</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= APP SHELL ======================= -->
+<div id="view-app" class="hidden">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">SI</div>
+      <div><b>SINO</b><span>Ingresos No Operacionales</span></div>
+    </div>
+    <div style="flex:1 1 auto;overflow-y:auto;padding-bottom:10px;">
+      <div class="nav-group">
+        <div class="nav-group-title">Inicio</div>
+        <div class="nav-item" data-view="dashboard" data-roles=""><span class="ico">🏠</span>Panel Principal</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Causaciones</div>
+        <div class="nav-item" data-view="nueva-causacion" data-roles="Analista Contable"><span class="ico">🧾</span>Nueva Causación Manual</div>
+        <div class="nav-item" data-view="recurrencia" data-roles="Analista Contable"><span class="ico">🔁</span>Programar Recurrencia</div>
+        <div class="nav-item" data-view="bandeja" data-roles="Coordinador"><span class="ico">📥</span>Bandeja de Aprobación</div>
+        <div class="nav-item" data-view="todas" data-roles=""><span class="ico">📋</span>Todas las Causaciones</div>
+        <div class="nav-item" data-view="vencidas" data-roles="Analista Contable,Coordinador,Administrador"><span class="ico">⏰</span>Programaciones Vencidas</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Maestros</div>
+        <div class="nav-item" data-view="terceros" data-roles=""><span class="ico">🏦</span>Terceros</div>
+        <div class="nav-item" data-view="puc" data-roles="Administrador"><span class="ico">📚</span>Plan de Cuentas (PUC)</div>
+        <div class="nav-item" data-view="tipos-ingreso" data-roles="Administrador"><span class="ico">🏷️</span>Tipos de Ingreso</div>
+        <div class="nav-item" data-view="tasas" data-roles="Administrador"><span class="ico">💰</span>Tasas e Impuestos</div>
+        <div class="nav-item" data-view="centros-costo" data-roles="Administrador"><span class="ico">🏢</span>Centros de Costo</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Configuración</div>
+        <div class="nav-item" data-view="usuarios" data-roles="Administrador"><span class="ico">👥</span>Usuarios y Roles</div>
+        <div class="nav-item" data-view="disponibilidad" data-roles="Administrador"><span class="ico">🛠️</span>Disponibilidad y Mantenimiento</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Reportes</div>
+        <div class="nav-item" data-view="libro-auxiliar" data-roles=""><span class="ico">📖</span>Libro Auxiliar</div>
+        <div class="nav-item" data-view="comprobantes" data-roles=""><span class="ico">🖨️</span>Comprobantes Contables</div>
+        <div class="nav-item" data-view="estado-cuenta" data-roles=""><span class="ico">📊</span>Estado de Cuenta por Tercero</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Herramientas</div>
+        <div class="nav-item" data-view="batch" data-roles="Administrador,Coordinador"><span class="ico">⚡</span>Procesamiento por Lote</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">Sistema</div>
+        <div class="nav-item" data-view="auditoria" data-roles="Administrador"><span class="ico">🕵️</span>Auditoría</div>
+        <div class="nav-item" data-view="trazabilidad" data-roles=""><span class="ico">🧭</span>Trazabilidad de Requisitos</div>
+        <div class="nav-item" data-view="ayuda" data-roles=""><span class="ico">❓</span>Ayuda y Soporte</div>
+      </div>
+    </div>
+    <div class="sidebar-foot">SINO v1.0 · Prototipo académico<br>© 2026 — Uso educativo</div>
+  </nav>
+
+  <div class="main-wrap">
+    <div class="maint-banner hidden" id="maint-banner">🛠️ El sistema entrará en ventana de mantenimiento programada. Las funciones de escritura pueden verse restringidas.</div>
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" onclick="UI.toggleSidebar()">☰</button>
+        <div>
+          <div id="page-title">Panel Principal</div>
+          <div id="page-subtitle">Resumen general del sistema</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="badge-security" onclick="UI.showSecurityInfo()" title="Ver detalles de seguridad">🔒 TLS 1.2+ · Datos cifrados</div>
+        <div class="user-chip">
+          <div class="av" id="chip-av">--</div>
+          <div>
+            <div class="name" id="chip-name">—</div>
+            <div class="role" id="chip-role">—</div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="Auth.logout()">Salir</button>
+      </div>
+    </div>
+    <div class="status-strip">
+      <span><span class="dot"></span><span id="status-op-text">Sistema operativo</span></span>
+      <span>Disponibilidad objetivo: <b class="mono">99.9%</b></span>
+      <span id="status-maint-text">Próxima ventana de mantenimiento: —</span>
+      <span id="status-clock" class="mono"></span>
+    </div>
+
+    <div class="content" id="content">
+      <!-- ============ DASHBOARD ============ -->
+      <section class="view" id="v-dashboard">
+        <div class="grid grid-4" id="dash-kpis"></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title-row"><h3>⚠️ Alertas y Pendientes</h3></div>
+            <div id="dash-alerts"></div>
+          </div>
+          <div class="card">
+            <div class="card-title-row"><h3>🖥️ Estado del Sistema</h3></div>
+            <table class="asiento-table">
+              <tr><td>Disponibilidad objetivo</td><td class="num mono">99.9%</td></tr>
+              <tr><td>Disponibilidad simulada (30 días)</td><td class="num mono" id="dash-uptime-sim">—</td></tr>
+              <tr><td>Ventana de mantenimiento</td><td class="num" id="dash-maint-window">—</td></tr>
+              <tr><td>Última simulación de cierre (lote)</td><td class="num" id="dash-last-batch">Sin ejecutar</td></tr>
+              <tr><td>Cifrado</td><td class="num">TLS 1.2+ · AES-256 (objetivo prod.)</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row">
+            <h3>🕒 Actividad Reciente</h3>
+            <div class="pill-btn-group" id="dash-quick-actions"></div>
+          </div>
+          <div class="table-scroll"><table class="dense" id="tbl-dashboard-actividad">
+            <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead>
+            <tbody id="tbody-dashboard-actividad"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ NUEVA CAUSACIÓN MANUAL ============ -->
+      <section class="view" id="v-nueva-causacion">
+        <div class="help-box"><b>Registro de Causación Manual.</b> Ideal para ingresos esporádicos (venta de activos fijos, indemnizaciones de seguros, etc.). Seleccione el tercero y tipo de ingreso: el sistema autocompletará las cuentas contables paramétricas y calculará impuestos y valor neto. No se permite guardar si Débitos ≠ Créditos.</div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Datos de la Causación</h3>
+            <div class="field"><label>Tercero *</label><select id="nc-tercero" onchange="Causaciones.recalcular('nc')"></select></div>
+            <div class="field"><label>Tipo de Ingreso *</label><select id="nc-tipo" onchange="Causaciones.recalcular('nc')"></select></div>
+            <div class="grid grid-2">
+              <div class="field"><label>Valor Base (COP) *</label><input type="number" min="0" step="1000" id="nc-valor" oninput="Causaciones.recalcular('nc')" placeholder="0"></div>
+              <div class="field"><label>Centro de Costo *</label><select id="nc-cc" onchange="Causaciones.recalcular('nc')"></select></div>
+            </div>
+            <div class="field"><label>Concepto *</label><textarea id="nc-concepto" rows="2" oninput="Causaciones.recalcular('nc')" placeholder="Describa el origen del ingreso..."></textarea></div>
+            <div id="nc-error" class="err-msg hidden"></div>
+            <div style="display:flex;gap:10px;margin-top:6px;">
+              <button class="btn btn-success" id="nc-btn-guardar" onclick="Causaciones.guardarManual()" disabled>💾 Guardar como Borrador</button>
+              <button class="btn btn-ghost" onclick="Causaciones.limpiarForm('nc')">Limpiar</button>
+            </div>
+            <div class="small muted" id="nc-latency" style="margin-top:8px;"></div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Vista Previa del Asiento Contable</h3>
+            <div id="nc-preview"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>📝 Mis Borradores</h3></div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Fecha</th><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th class="num">Valor Neto</th><th>Centro Costo</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-borradores"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ PROGRAMAR RECURRENCIA ============ -->
+      <section class="view" id="v-recurrencia">
+        <div class="help-box"><b>Causaciones Automáticas (Recurrentes).</b> Para ingresos fijos periódicos (arrendamientos, intereses de inversiones). El sistema generará la causación en estado "Pendiente de Aprobación" en cada ciclo (mensual, trimestral o semestral) mientras la programación esté vigente.</div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Nueva Programación</h3>
+            <div class="field"><label>Tercero *</label><select id="rc-tercero" onchange="Causaciones.recalcular('rc')"></select></div>
+            <div class="field"><label>Tipo de Ingreso *</label><select id="rc-tipo" onchange="Causaciones.recalcular('rc')"></select></div>
+            <div class="grid grid-2">
+              <div class="field"><label>Valor Base (COP) *</label><input type="number" min="0" step="1000" id="rc-valor" oninput="Causaciones.recalcular('rc')" placeholder="0"></div>
+              <div class="field"><label>Centro de Costo *</label><select id="rc-cc" onchange="Causaciones.recalcular('rc')"></select></div>
+            </div>
+            <div class="field"><label>Concepto *</label><textarea id="rc-concepto" rows="2" oninput="Causaciones.recalcular('rc')" placeholder="Ej. Arrendamiento local comercial Cra 45..."></textarea></div>
+            <div class="grid grid-3">
+              <div class="field"><label>Periodicidad *</label><select id="rc-periodicidad"><option value="Mensual">Mensual</option><option value="Trimestral">Trimestral</option><option value="Semestral">Semestral</option></select></div>
+              <div class="field"><label>Fecha Inicio *</label><input type="date" id="rc-inicio"></div>
+              <div class="field"><label>Fecha Fin (opcional)</label><input type="date" id="rc-fin"></div>
+            </div>
+            <div id="rc-error" class="err-msg hidden"></div>
+            <button class="btn btn-success" id="rc-btn-guardar" onclick="Causaciones.guardarRecurrencia()" disabled>🔁 Programar Recurrencia</button>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Vista Previa del Asiento (por ciclo)</h3>
+            <div id="rc-preview"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>📅 Programaciones Activas</h3>
+            <button class="btn btn-ghost btn-sm" onclick="const n=Causaciones.generarAutomaticas(true); Views.renderProgramaciones(); Views.renderVencidas();">▶️ Generar Causaciones del Ciclo Actual (simular fin de mes)</button>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th>Periodicidad</th><th>Inicio</th><th>Fin</th><th>Próxima Generación</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-programaciones"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ BANDEJA DE APROBACIÓN ============ -->
+      <section class="view" id="v-bandeja">
+        <div class="help-box"><b>Flujo de Aprobación (Maker-Checker).</b> Toda causación permanece inactiva hasta que un Coordinador revisa las sumas (Débitos = Créditos) y presiona "Aprobar y Contabilizar". Un Coordinador no puede aprobar causaciones creadas por sí mismo.</div>
+        <div class="card">
+          <div class="filters-bar">
+            <div class="field"><label>Tercero</label><select id="bd-f-tercero"><option value="">Todos</option></select></div>
+            <div class="field"><label>Tipo de Ingreso</label><select id="bd-f-tipo"><option value="">Todos</option></select></div>
+            <button class="btn btn-ghost btn-sm" onclick="Views.renderBandeja()">🔄 Actualizar</button>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Fecha</th><th>Origen</th><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th class="num">Valor Neto</th><th>Creado por</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-bandeja"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ TODAS LAS CAUSACIONES ============ -->
+      <section class="view" id="v-todas">
+        <div class="card">
+          <div class="filters-bar">
+            <div class="field"><label>Estado</label><select id="td-f-estado"><option value="">Todos</option><option>Borrador</option><option>Pendiente de Aprobación</option><option>Contabilizado</option><option>Rechazado</option></select></div>
+            <div class="field"><label>Tercero</label><select id="td-f-tercero"><option value="">Todos</option></select></div>
+            <div class="field"><label>Desde</label><input type="date" id="td-f-desde"></div>
+            <div class="field"><label>Hasta</label><input type="date" id="td-f-hasta"></div>
+            <button class="btn btn-primary btn-sm" onclick="Views.renderTodas()">🔍 Filtrar</button>
+            <button class="btn btn-ghost btn-sm" onclick="Reportes.exportCSV(Views.currentTodasRows||[],'causaciones')">⬇️ Exportar CSV</button>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Fecha</th><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th class="num">Valor Neto</th><th>Estado</th><th>Creado por</th><th>Aprobado por</th><th>Cobro</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-todas"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ PROGRAMACIONES VENCIDAS ============ -->
+      <section class="view" id="v-vencidas">
+        <div class="help-box"><b>Causación recurrente no generada — Solución (Manual §6):</b> revise esta pestaña. Es probable que la vigencia del contrato paramétrico haya expirado (Fecha Fin superada).</div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th>Periodicidad</th><th>Fecha Fin</th><th>Motivo</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-vencidas"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ TERCEROS ============ -->
+      <section class="view" id="v-terceros">
+        <div class="card" id="terceros-form-card">
+          <h3 style="margin-bottom:12px;">Registrar / Editar Tercero</h3>
+          <input type="hidden" id="tc-id">
+          <div class="grid grid-3">
+            <div class="field"><label>NIT *</label><input type="text" id="tc-nit" placeholder="900123456"></div>
+            <div class="field"><label>Dígito de Verificación (DV)</label><input type="text" id="tc-dv" placeholder="Se calcula automáticamente" readonly></div>
+            <div class="field"><label>Tipo *</label><select id="tc-tipo"><option>Banco</option><option>Cliente</option><option>Otro</option></select></div>
+          </div>
+          <div class="grid grid-2">
+            <div class="field"><label>Razón Social *</label><input type="text" id="tc-razon" placeholder="Nombre o razón social"></div>
+            <div class="field"><label>Contacto (correo/teléfono)</label><input type="text" id="tc-contacto" placeholder="correo@dominio.com / 3001234567"></div>
+          </div>
+          <div class="field" style="max-width:220px;"><label>Estado</label><select id="tc-estado"><option>Activo</option><option>Inactivo</option></select></div>
+          <div id="tc-error" class="err-msg hidden"></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-success" onclick="Maestros.guardarTercero()">💾 Guardar Tercero</button>
+            <button class="btn btn-ghost" onclick="Maestros.limpiarTercero()">Cancelar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>🏦 Terceros Registrados</h3><input type="text" class="field" style="min-width:220px;padding:8px 10px;border:1px solid var(--gray-300);border-radius:7px;" placeholder="Buscar por NIT o razón social..." id="tc-search" oninput="Maestros.renderTerceros()"></div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>NIT-DV</th><th>Razón Social</th><th>Tipo</th><th>Contacto</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-terceros"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ PUC ============ -->
+      <section class="view" id="v-puc">
+        <div class="help-box"><b>Plan Único de Cuentas (PUC).</b> Cuentas de Ingresos (Crédito) y Cuentas por Cobrar / Anticipos de Impuestos (Débito) usadas para generar automáticamente el asiento contable de cada causación.</div>
+        <div class="card">
+          <h3 style="margin-bottom:12px;">Registrar Cuenta</h3>
+          <input type="hidden" id="puc-id">
+          <div class="grid grid-4">
+            <div class="field"><label>Código *</label><input type="text" id="puc-codigo" placeholder="4210"></div>
+            <div class="field" style="grid-column:span 2;"><label>Nombre *</label><input type="text" id="puc-nombre" placeholder="Ingresos Financieros"></div>
+            <div class="field"><label>Naturaleza *</label><select id="puc-naturaleza"><option>Crédito</option><option>Débito</option></select></div>
+          </div>
+          <button class="btn btn-success" onclick="Maestros.guardarPuc()">💾 Guardar Cuenta</button>
+        </div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Código</th><th>Nombre</th><th>Naturaleza</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-puc"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ TIPOS DE INGRESO ============ -->
+      <section class="view" id="v-tipos-ingreso">
+        <div class="help-box">Cada Tipo de Ingreso define qué cuentas del PUC y qué tasa de retención se aplican automáticamente al registrar una causación (autocompletado paramétrico mencionado en el manual §4.1).</div>
+        <div class="card">
+          <h3 style="margin-bottom:12px;">Registrar Tipo de Ingreso</h3>
+          <input type="hidden" id="ti-id">
+          <div class="field"><label>Nombre *</label><input type="text" id="ti-nombre" placeholder="Ej. Rendimientos Financieros"></div>
+          <div class="grid grid-3">
+            <div class="field"><label>Cuenta de Ingreso (Crédito) *</label><select id="ti-cta-ingreso"></select></div>
+            <div class="field"><label>Cuenta CxC (Débito) *</label><select id="ti-cta-cxc"></select></div>
+            <div class="field"><label>Cuenta Retención (Débito) *</label><select id="ti-cta-ret"></select></div>
+          </div>
+          <div class="field" style="max-width:280px;"><label>Tasa de Retención *</label><select id="ti-tasa"></select></div>
+          <button class="btn btn-success" onclick="Maestros.guardarTipoIngreso()">💾 Guardar Tipo de Ingreso</button>
+        </div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Tipo de Ingreso</th><th>Cta. Ingreso</th><th>Cta. CxC</th><th>Cta. Retención</th><th>Tasa</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-tipos-ingreso"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ TASAS E IMPUESTOS ============ -->
+      <section class="view" id="v-tasas">
+        <div class="card">
+          <h3 style="margin-bottom:12px;">Registrar Tasa / Retención</h3>
+          <input type="hidden" id="ta-id">
+          <div class="grid grid-2">
+            <div class="field"><label>Nombre *</label><input type="text" id="ta-nombre" placeholder="Retención Rendimientos Financieros"></div>
+            <div class="field"><label>Porcentaje (%) *</label><input type="number" step="0.01" min="0" max="100" id="ta-porcentaje" placeholder="4.00"></div>
+          </div>
+          <button class="btn btn-success" onclick="Maestros.guardarTasa()">💾 Guardar Tasa</button>
+        </div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Nombre</th><th class="num">Porcentaje</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-tasas"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ CENTROS DE COSTO ============ -->
+      <section class="view" id="v-centros-costo">
+        <div class="card">
+          <h3 style="margin-bottom:12px;">Registrar Centro de Costo</h3>
+          <input type="hidden" id="cc-id">
+          <div class="grid grid-2">
+            <div class="field"><label>Código *</label><input type="text" id="cc-codigo" placeholder="CC-100"></div>
+            <div class="field"><label>Nombre *</label><input type="text" id="cc-nombre" placeholder="Tesorería"></div>
+          </div>
+          <button class="btn btn-success" onclick="Maestros.guardarCentroCosto()">💾 Guardar Centro de Costo</button>
+        </div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Código</th><th>Nombre</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-centros-costo"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ USUARIOS Y ROLES ============ -->
+      <section class="view" id="v-usuarios">
+        <div class="help-box"><b>RBAC.</b> Administrador: gestión de usuarios y parametrización (no aprueba transacciones). Analista Contable: crea terceros y causaciones en Borrador. Coordinador: aprueba/rechaza y genera reportes oficiales (control dual).</div>
+        <div class="card">
+          <h3 style="margin-bottom:12px;">Crear / Editar Usuario</h3>
+          <input type="hidden" id="us-id">
+          <div class="grid grid-3">
+            <div class="field"><label>Usuario *</label><input type="text" id="us-username" placeholder="jperez"></div>
+            <div class="field"><label>Nombre Completo *</label><input type="text" id="us-nombre" placeholder="Juan Pérez"></div>
+            <div class="field"><label>Rol *</label><select id="us-rol"><option>Administrador</option><option>Analista Contable</option><option>Coordinador</option></select></div>
+          </div>
+          <div class="field" style="max-width:280px;"><label>Contraseña (dejar vacío para no cambiar)</label><input type="password" id="us-password" placeholder="••••••••"></div>
+          <div id="us-error" class="err-msg hidden"></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-success" onclick="Maestros.guardarUsuario()">💾 Guardar Usuario</button>
+            <button class="btn btn-ghost" onclick="Maestros.limpiarUsuario()">Cancelar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-usuarios"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ DISPONIBILIDAD Y MANTENIMIENTO ============ -->
+      <section class="view" id="v-disponibilidad">
+        <div class="help-box"><b>Requisito:</b> Uptime del 99.9% en horarios hábiles, permitiendo ventanas de mantenimiento programadas en la madrugada.</div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Ventana de Mantenimiento Programada</h3>
+            <div class="grid grid-3">
+              <div class="field"><label>Día</label><select id="dp-dia"><option>Domingo</option><option>Lunes</option><option>Martes</option><option>Miércoles</option><option>Jueves</option><option>Viernes</option><option>Sábado</option></select></div>
+              <div class="field"><label>Hora Inicio</label><input type="time" id="dp-hora-inicio" value="02:00"></div>
+              <div class="field"><label>Hora Fin</label><input type="time" id="dp-hora-fin" value="04:00"></div>
+            </div>
+            <label class="small" style="display:flex;gap:7px;align-items:center;margin:8px 0;"><input type="checkbox" id="dp-activo"> Activar modo mantenimiento ahora (bloquea escritura para todos los roles)</label>
+            <button class="btn btn-success" onclick="Config.guardarDisponibilidad()">💾 Guardar Configuración</button>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:12px;">Indicadores Simulados</h3>
+            <table class="asiento-table">
+              <tr><td>Uptime objetivo contractual</td><td class="num mono">99.9%</td></tr>
+              <tr><td>Uptime simulado (últimos 30 días)</td><td class="num mono" id="dp-uptime-sim">—</td></tr>
+              <tr><td>Minutos de indisponibilidad permitidos/mes</td><td class="num mono">~43.2 min</td></tr>
+            </table>
+            <p class="small muted" style="margin-top:10px;">Nota: al ser un prototipo de frontend estático (sin servidor/base de datos productiva), estos indicadores son ilustrativos del requisito no funcional y del panel de control que tendría el sistema en producción.</p>
+          </div>
+        </div>
+      </section>
+      <!-- ============ LIBRO AUXILIAR ============ -->
+      <section class="view" id="v-libro-auxiliar">
+        <div class="help-box"><b>Libro Auxiliar.</b> Detalle transacción por transacción de las cuentas de ingresos no operacionales. Exportable a Excel/CSV.</div>
+        <div class="card">
+          <div class="filters-bar">
+            <div class="field"><label>Tercero</label><select id="la-f-tercero"><option value="">Todos</option></select></div>
+            <div class="field"><label>Tipo de Ingreso</label><select id="la-f-tipo"><option value="">Todos</option></select></div>
+            <div class="field"><label>Desde</label><input type="date" id="la-f-desde"></div>
+            <div class="field"><label>Hasta</label><input type="date" id="la-f-hasta"></div>
+            <label class="small" style="display:flex;gap:6px;align-items:center;"><input type="checkbox" id="la-f-simulados"> Incluir registros de simulación de lote</label>
+            <button class="btn btn-primary btn-sm" onclick="Reportes.renderLibroAuxiliar()">🔍 Filtrar</button>
+            <button class="btn btn-ghost btn-sm" onclick="Reportes.exportCSV(Reportes.currentLibroRows||[],'libro_auxiliar')">⬇️ Exportar CSV/Excel</button>
+            <button class="btn btn-ghost btn-sm" onclick="Reportes.imprimirLibro()">🖨️ Imprimir</button>
+          </div>
+          <div class="table-scroll print-target"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Fecha Contabilización</th><th>Tercero</th><th>Cuenta</th><th>Tipo Ingreso</th><th class="num">Débito</th><th class="num">Crédito</th><th>Centro Costo</th></tr></thead>
+            <tbody id="tbody-libro"></tbody>
+            <tfoot id="tfoot-libro"></tfoot>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ COMPROBANTES CONTABLES ============ -->
+      <section class="view" id="v-comprobantes">
+        <div class="help-box"><b>Comprobantes Contables.</b> Reimpresión en PDF de cualquier causación aprobada, incluye firmas digitales (simuladas) del preparador y aprobador.</div>
+        <div class="card no-print">
+          <div class="filters-bar">
+            <div class="field" style="min-width:320px;"><label>Buscar causación contabilizada</label><select id="cp-select"></select></div>
+            <button class="btn btn-primary btn-sm" onclick="Reportes.mostrarComprobante()">Ver Comprobante</button>
+          </div>
+        </div>
+        <div id="cp-contenedor"></div>
+      </section>
+
+      <!-- ============ ESTADO DE CUENTA POR TERCERO ============ -->
+      <section class="view" id="v-estado-cuenta">
+        <div class="help-box"><b>Estado de Cuenta por Tercero.</b> Saldo pendiente de cobro consolidado por banco o entidad. (Supuesto del prototipo: el "cobro" se registra manualmente desde esta vista o desde el Libro Auxiliar una vez el banco/cliente paga; el sistema no integra tesorería real.)</div>
+        <div class="card">
+          <div class="filters-bar">
+            <div class="field" style="min-width:280px;"><label>Tercero</label><select id="ec-tercero" onchange="Reportes.renderEstadoCuenta()"></select></div>
+          </div>
+          <div class="grid grid-3" id="ec-kpis"></div>
+          <div class="table-scroll" style="margin-top:12px;"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Fecha</th><th>Tipo Ingreso</th><th class="num">Valor Neto</th><th>Estado</th><th>Cobro</th><th>Acciones</th></tr></thead>
+            <tbody id="tbody-estado-cuenta"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ PROCESAMIENTO POR LOTE ============ -->
+      <section class="view" id="v-batch">
+        <div class="help-box"><b>Requisito de Rendimiento:</b> capacidad para procesar y contabilizar hasta 10.000 causaciones automáticas de fin de mes en menos de 5 minutos (300.000 ms). Esta herramienta genera causaciones sintéticas de cierre de mes y mide el tiempo real de ejecución en el navegador.</div>
+        <div class="card">
+          <div class="grid grid-3">
+            <div class="field"><label>Cantidad a simular</label><input type="number" id="bt-cantidad" min="10" max="20000" value="10000"></div>
+            <div class="field"><label>&nbsp;</label><button class="btn btn-primary" onclick="Batch.generar()">⚙️ 1. Generar Causaciones de Cierre</button></div>
+            <div class="field"><label>&nbsp;</label><button class="btn btn-success" id="bt-btn-contabilizar" onclick="Batch.contabilizarLote()" disabled>✅ 2. Aprobar y Contabilizar en Lote</button></div>
+          </div>
+          <p class="small muted">Paso 1 puede ejecutarlo <b>Administrador</b> o <b>Coordinador</b> (generación/parametrización). Paso 2 — la contabilización/aprobación — está restringido a <b>Coordinador</b>, conforme a la restricción del rol Administrador ("no puede aprobar transacciones financieras directamente").</p>
+          <div class="progress-outer"><div class="progress-inner" id="bt-progress" style="width:0%;"></div></div>
+          <div id="bt-resultado" style="margin-top:14px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title-row"><h3>Muestra del Lote (primeros 50 registros)</h3>
+            <div class="pill-btn-group">
+              <button class="btn btn-ghost btn-sm" onclick="Batch.exportar()">⬇️ Exportar Lote CSV</button>
+              <button class="btn btn-danger btn-sm" onclick="Batch.limpiar()">🗑️ Limpiar Datos de Simulación</button>
+            </div>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Consecutivo</th><th>Tercero</th><th>Tipo Ingreso</th><th class="num">Valor Base</th><th class="num">Valor Neto</th><th>Estado</th></tr></thead>
+            <tbody id="tbody-batch"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ AUDITORÍA ============ -->
+      <section class="view" id="v-auditoria">
+        <div class="card">
+          <div class="filters-bar">
+            <div class="field"><label>Usuario</label><select id="au-f-usuario"><option value="">Todos</option></select></div>
+            <div class="field"><label>Desde</label><input type="date" id="au-f-desde"></div>
+            <div class="field"><label>Hasta</label><input type="date" id="au-f-hasta"></div>
+            <button class="btn btn-primary btn-sm" onclick="Views.renderAuditoria()">🔍 Filtrar</button>
+            <button class="btn btn-ghost btn-sm" onclick="Reportes.exportCSV(Views.currentAuditRows||[],'auditoria')">⬇️ Exportar CSV</button>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Fecha</th><th>Usuario</th><th>Rol</th><th>Acción</th><th>Detalle</th></tr></thead>
+            <tbody id="tbody-auditoria"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ TRAZABILIDAD DE REQUISITOS ============ -->
+      <section class="view" id="v-trazabilidad">
+        <div class="help-box">Matriz de trazabilidad: relaciona cada requisito (funcional y no funcional) del proyecto con su implementación en este prototipo. Útil como evidencia para la sustentación del curso de Requisitos.</div>
+        <div class="card">
+          <div class="table-scroll"><table class="dense trace-table" id="tbl-trazabilidad">
+            <thead><tr><th>Código</th><th>Categoría</th><th>Requisito</th><th>Cómo se implementa en SINO</th><th>Vista</th></tr></thead>
+            <tbody id="tbody-trazabilidad"></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ AYUDA Y SOPORTE ============ -->
+      <section class="view" id="v-ayuda">
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>❓ Resolución de Problemas Frecuentes</h3>
+            <div id="ayuda-faq"></div>
+          </div>
+          <div class="card">
+            <h3>📞 Contacto de Soporte</h3>
+            <p class="small">Para errores críticos o dudas adicionales sobre el uso del sistema, contacte al equipo de Mesa de Ayuda a través de la intranet de la compañía o envíe un correo electrónico detallando el error y adjuntando una captura de pantalla a:</p>
+            <p><b>soporte_financiero@empresa.com</b></p>
+            <hr style="border:none;border-top:1px solid var(--gray-200);margin:14px 0;">
+            <h3>📌 Supuestos y Alcance del Prototipo</h3>
+            <ul class="small" style="padding-left:18px;line-height:1.7;">
+              <li>Aplicación 100% en el cliente (HTML/CSS/JS) con persistencia en <code>localStorage</code> del navegador; no hay backend real, base de datos ni servidor TLS — la seguridad de transporte/reposo se documenta como objetivo de producción.</li>
+              <li>El "último día hábil del ciclo" se simplifica: la generación automática se dispara cuando la fecha del sistema alcanza o supera la próxima fecha de generación (sin calendario de festivos).</li>
+              <li>El "cobro" (pago recibido) es un registro manual simplificado dentro de Estado de Cuenta / Libro Auxiliar, ya que el manual no describe un módulo de tesorería.</li>
+              <li>El MFA se simula mostrando el código en pantalla (sin envío real de correo/SMS) y el SSO se deja como punto de integración documentado.</li>
+              <li>Los cálculos de retención usan tasas de ejemplo configurables; deben ajustarse a la normativa DIAN vigente antes de un uso real.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="app-footer">Sistema de Causación de Ingresos No Operacionales (SINO) — Prototipo académico · Creado por: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+/* ============================================================
+   SINO — Lógica de aplicación (100% cliente, sin dependencias)
+   ============================================================ */
+'use strict';
+
+/* ---------------------------------------------------------------
+   UTIL — helpers genéricos
+--------------------------------------------------------------- */
+const Util = {
+  uid(prefix){ return (prefix||'id') + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8); },
+  todayISO(){ return new Date().toISOString().slice(0,10); },
+  nowISO(){ return new Date().toISOString(); },
+  money(n){
+    n = Number(n)||0;
+    return '$' + n.toLocaleString('es-CO',{minimumFractionDigits:0, maximumFractionDigits:0});
+  },
+  pct(n){ return (Number(n)||0).toLocaleString('es-CO',{minimumFractionDigits:2,maximumFractionDigits:2}) + '%'; },
+  fmtDate(iso){
+    if(!iso) return '—';
+    const d = new Date(iso);
+    if(isNaN(d.getTime())) return iso;
+    return d.toLocaleString('es-CO',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+  },
+  fmtDateShort(iso){
+    if(!iso) return '—';
+    const d = new Date(iso+ (iso.length===10?'T00:00:00':''));
+    if(isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('es-CO',{year:'numeric',month:'2-digit',day:'2-digit'});
+  },
+  escapeHtml(str){
+    if(str===undefined || str===null) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  },
+  // Algoritmo oficial DIAN para cálculo del dígito de verificación del NIT
+  calcDV(nitRaw){
+    const nit = String(nitRaw||'').replace(/\D/g,'');
+    if(!nit) return '';
+    const weights = [3,7,13,17,19,23,29,37,41,43,47,53,59,67,71];
+    let sum = 0;
+    const digits = nit.split('').reverse();
+    for(let i=0;i<digits.length;i++){
+      sum += parseInt(digits[i],10) * (weights[i]||0);
+    }
+    const r = sum % 11;
+    return (r < 2) ? String(r) : String(11 - r);
+  },
+  async sha256(text){
+    const enc = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  },
+  csvEscape(v){
+    v = (v===undefined||v===null) ? '' : String(v);
+    if(/[",\n;]/.test(v)) return '"' + v.replace(/"/g,'""') + '"';
+    return v;
+  },
+  downloadFile(filename, content, mime){
+    const blob = new Blob([content], {type: mime || 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+  }
+};
+
+/* ---------------------------------------------------------------
+   TOASTS
+--------------------------------------------------------------- */
+const Toast = {
+  show(msg, type){
+    const wrap = document.getElementById('toast-wrap');
+    const el = document.createElement('div');
+    el.className = 'toast ' + (type||'');
+    const icon = type==='success' ? '✅' : type==='error' ? '⛔' : type==='warn' ? '⚠️' : 'ℹ️';
+    el.innerHTML = '<span>'+icon+'</span><span>'+Util.escapeHtml(msg)+'</span>';
+    wrap.appendChild(el);
+    setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),320); }, 3400);
+  }
+};
+
+/* ---------------------------------------------------------------
+   DB — persistencia en localStorage
+--------------------------------------------------------------- */
+const DB_KEY = 'sino_db_v1';
+const DB = {
+  data: null,
+  load(){
+    try{
+      const raw = localStorage.getItem(DB_KEY);
+      if(raw){ this.data = JSON.parse(raw); return; }
+    }catch(e){ console.warn('No se pudo leer la base local, se reinicializará.', e); }
+    this.data = null;
+  },
+  save(){
+    try{ localStorage.setItem(DB_KEY, JSON.stringify(this.data)); }
+    catch(e){ Toast.show('No se pudo guardar en almacenamiento local (localStorage).','error'); }
+  },
+  reset(){ this.data = null; localStorage.removeItem(DB_KEY); Seed.run(); this.save(); }
+};
+
+/* ---------------------------------------------------------------
+   SEED — datos iniciales de demostración
+--------------------------------------------------------------- */
+const Seed = {
+  async run(){
+    const d = {
+      usuarios: [],
+      terceros: [],
+      puc: [],
+      tasas: [],
+      tiposIngreso: [],
+      centrosCosto: [],
+      causaciones: [],
+      programaciones: [],
+      auditoria: [],
+      config: {
+        mantenimiento: {dia:'Domingo', horaInicio:'02:00', horaFin:'04:00', activo:false},
+        consecutivo: 1000
+      }
+    };
+    const mk = async (username,nombre,role,pass) => ({
+      id: Util.uid('usr'), username, nombre, role, activo:true,
+      passwordHash: await Util.sha256(pass)
+    });
+    d.usuarios.push(await mk('admin','Administrador del Sistema','Administrador','Admin#2026'));
+    d.usuarios.push(await mk('analista','Camila Ríos','Analista Contable','Analista#2026'));
+    d.usuarios.push(await mk('analista2','Pedro Gómez','Analista Contable','Analista#2026'));
+    d.usuarios.push(await mk('coordinador','Jorge Muñoz','Coordinador','Coordina#2026'));
+    d.usuarios.push(await mk('coordinador2','Laura Vidal','Coordinador','Coordina#2026'));
+
+    d.puc = [
+      {codigo:'1305', nombre:'Clientes (Cuentas por Cobrar)', naturaleza:'Débito'},
+      {codigo:'1355', nombre:'Anticipo de Impuestos y Contribuciones (Retención en la Fuente)', naturaleza:'Débito'},
+      {codigo:'4210', nombre:'Ingresos Financieros', naturaleza:'Crédito'},
+      {codigo:'4218', nombre:'Arrendamientos', naturaleza:'Crédito'},
+      {codigo:'4220', nombre:'Dividendos y Participaciones', naturaleza:'Crédito'},
+      {codigo:'4245', nombre:'Utilidad en Venta de Activos Fijos', naturaleza:'Crédito'},
+      {codigo:'4295', nombre:'Ingresos Diversos (Indemnizaciones y Otros)', naturaleza:'Crédito'}
+    ];
+
+    d.tasas = [
+      {id:'tasa_fin', nombre:'Retención Rendimientos Financieros', porcentaje:4},
+      {id:'tasa_arr', nombre:'Retención Arrendamientos', porcentaje:3.5},
+      {id:'tasa_div', nombre:'Retención Dividendos y Participaciones', porcentaje:0},
+      {id:'tasa_act', nombre:'Retención Venta de Activos Fijos', porcentaje:2.5},
+      {id:'tasa_cero', nombre:'Sin Retención', porcentaje:0}
+    ];
+
+    d.tiposIngreso = [
+      {id:'ti_fin', nombre:'Rendimientos Financieros', cuentaIngreso:'4210', cuentaCxC:'1305', cuentaRetencion:'1355', tasaId:'tasa_fin'},
+      {id:'ti_arr', nombre:'Arrendamientos', cuentaIngreso:'4218', cuentaCxC:'1305', cuentaRetencion:'1355', tasaId:'tasa_arr'},
+      {id:'ti_div', nombre:'Dividendos y Participaciones', cuentaIngreso:'4220', cuentaCxC:'1305', cuentaRetencion:'1355', tasaId:'tasa_div'},
+      {id:'ti_act', nombre:'Venta de Activos Fijos', cuentaIngreso:'4245', cuentaCxC:'1305', cuentaRetencion:'1355', tasaId:'tasa_act'},
+      {id:'ti_ind', nombre:'Indemnizaciones de Seguros', cuentaIngreso:'4295', cuentaCxC:'1305', cuentaRetencion:'1355', tasaId:'tasa_cero'}
+    ];
+
+    d.centrosCosto = [
+      {id:'cc_adm', codigo:'CC-100', nombre:'Administración'},
+      {id:'cc_tes', codigo:'CC-200', nombre:'Tesorería'},
+      {id:'cc_inv', codigo:'CC-300', nombre:'Inversiones'}
+    ];
+
+    const t = (nit,razon,tipo,contacto,estado) => ({id:Util.uid('ter'), nit, dv:Util.calcDV(nit), razonSocial:razon, tipo, contacto, estado});
+    d.terceros = [
+      t('860003020','Bancolombia S.A.','Banco','tesoreria@bancolombia.com','Activo'),
+      t('890903938','Banco de Bogotá S.A.','Banco','contacto@bancodebogota.com','Activo'),
+      t('900123456','Arrendamientos Inmobiliarios SAS','Cliente','facturacion@arrendamientos-sas.com','Activo'),
+      t('800234567','Inversiones El Roble S.A.S.','Cliente','info@elroble.com','Activo'),
+      t('901987654','Seguros Confianza S.A.','Cliente','siniestros@segurosconfianza.com','Inactivo')
+    ];
+
+    d.programaciones = [
+      {
+        id:'prog_1', terceroId:d.terceros[2].id, tipoIngresoId:'ti_arr', valorBase:6500000,
+        concepto:'Arrendamiento local comercial Cra 45 #12-30', centroCostoId:'cc_tes',
+        periodicidad:'Mensual', fechaInicio:'2026-01-01', fechaFin:'2026-12-31',
+        estado:'Activa', creadoPor:'analista', proximaGeneracion:'2026-09-30', ultimaGeneracion:null
+      },
+      {
+        id:'prog_2', terceroId:d.terceros[3].id, tipoIngresoId:'ti_fin', valorBase:2200000,
+        concepto:'Rendimientos CDT a 180 días', centroCostoId:'cc_inv',
+        periodicidad:'Trimestral', fechaInicio:'2025-01-01', fechaFin:'2025-12-31',
+        estado:'Vencida', creadoPor:'analista2', proximaGeneracion:'2026-01-01', ultimaGeneracion:'2025-10-01'
+      }
+    ];
+
+    d.causaciones = [];
+    d.auditoria = [];
+    this._seedCausaciones(d);
+    DB.data = d;
+  },
+  _seedCausaciones(d){
+    const analista = d.usuarios.find(u=>u.username==='analista');
+    const analista2 = d.usuarios.find(u=>u.username==='analista2');
+    const coord = d.usuarios.find(u=>u.username==='coordinador');
+    const mkCaus = (over) => {
+      const tipo = d.tiposIngreso.find(t=>t.id===over.tipoIngresoId);
+      const tasa = d.tasas.find(t=>t.id===tipo.tasaId);
+      const ret = round2(over.valorBase * (tasa.porcentaje/100));
+      const neto = over.valorBase - ret;
+      const isPosted = over.estado === 'Contabilizado';
+      return Object.assign({
+        id: Util.uid('cau'),
+        consecutivo: isPosted ? d.config.consecutivo++ : null,
+        origen:'Manual',
+        tipoIngresoId: tipo.id,
+        cuentaIngreso: tipo.cuentaIngreso, cuentaCxC: tipo.cuentaCxC, cuentaRetencion: tipo.cuentaRetencion,
+        valorRetencion: ret, valorNeto: neto,
+        fechaCreacion: new Date().toISOString(),
+        fechaAprobacion: null, aprobadoPor: null, motivoRechazo:null,
+        cobrado:false, fechaCobro:null, esSimulacion:false
+      }, over);
+    };
+    d.causaciones.push(mkCaus({terceroId:d.terceros[0].id, tipoIngresoId:'ti_fin', valorBase:3000000, concepto:'Rendimientos financieros cuenta de ahorros corporativa - agosto', centroCostoId:'cc_inv', estado:'Contabilizado', creadoPor:analista.username, aprobadoPor:coord.username, fechaAprobacion:new Date().toISOString(), cobrado:true, fechaCobro: Util.todayISO()}));
+    d.causaciones.push(mkCaus({terceroId:d.terceros[2].id, tipoIngresoId:'ti_arr', valorBase:6500000, concepto:'Arrendamiento local comercial - agosto', centroCostoId:'cc_tes', estado:'Contabilizado', creadoPor:analista.username, aprobadoPor:coord.username, fechaAprobacion:new Date().toISOString()}));
+    d.causaciones.push(mkCaus({terceroId:d.terceros[3].id, tipoIngresoId:'ti_act', valorBase:15000000, concepto:'Venta vehículo de la compañía - placa ABC123', centroCostoId:'cc_adm', estado:'Pendiente de Aprobación', creadoPor:analista2.username}));
+    d.causaciones.push(mkCaus({terceroId:d.terceros[1].id, tipoIngresoId:'ti_div', valorBase:4200000, concepto:'Dividendos participación accionaria', centroCostoId:'cc_inv', estado:'Borrador', creadoPor:analista.username}));
+    d.causaciones.push(mkCaus({terceroId:d.terceros[0].id, tipoIngresoId:'ti_fin', valorBase:900000, concepto:'Rendimientos cuenta corriente - julio (rechazada por valor incorrecto)', centroCostoId:'cc_inv', estado:'Rechazado', creadoPor:analista2.username, aprobadoPor:coord.username, fechaAprobacion:new Date().toISOString(), motivoRechazo:'El valor base no corresponde al extracto bancario adjunto. Verificar y corregir.'}));
+  }
+};
+function round2(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+
+/* ---------------------------------------------------------------
+   AUTH — login, MFA, sesión
+--------------------------------------------------------------- */
+const SESSION_KEY = 'sino_session_v1';
+const Auth = {
+  pendingUser: null,
+  pendingCode: null,
+  currentUser: null,
+
+  async submitCredentials(){
+    const u = document.getElementById('login-username').value.trim();
+    const p = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    errEl.classList.add('hidden');
+    if(!u || !p){ errEl.textContent='Ingrese usuario y contraseña.'; errEl.classList.remove('hidden'); return; }
+    const user = DB.data.usuarios.find(x=>x.username.toLowerCase()===u.toLowerCase());
+    if(!user || !user.activo){ errEl.textContent='Usuario o contraseña incorrectos.'; errEl.classList.remove('hidden'); return; }
+    const hash = await Util.sha256(p);
+    if(hash !== user.passwordHash){ errEl.textContent='Usuario o contraseña incorrectos.'; errEl.classList.remove('hidden'); return; }
+    this.pendingUser = user;
+    this.pendingCode = String(Math.floor(100000 + Math.random()*900000));
+    document.getElementById('mfa-shown-code').textContent = this.pendingCode;
+    document.getElementById('login-step-credentials').classList.add('hidden');
+    document.getElementById('login-step-mfa').classList.remove('hidden');
+    document.getElementById('login-mfa-input').value='';
+    document.getElementById('mfa-error').classList.add('hidden');
+  },
+  backToCredentials(){
+    document.getElementById('login-step-mfa').classList.add('hidden');
+    document.getElementById('login-step-credentials').classList.remove('hidden');
+    this.pendingUser = null; this.pendingCode = null;
+  },
+  ssoInfo(){
+    Toast.show('Punto de integración SSO: en producción se delegaría la autenticación a un proveedor de identidad corporativo (SAML/OIDC, ej. Azure AD, Okta, Google Workspace).', 'warn');
+  },
+  submitMfa(){
+    const code = document.getElementById('login-mfa-input').value.trim();
+    const errEl = document.getElementById('mfa-error');
+    if(code !== this.pendingCode){
+      errEl.textContent = 'Código incorrecto. Verifique e intente de nuevo.';
+      errEl.classList.remove('hidden');
+      return;
+    }
+    const user = this.pendingUser;
+    this.pendingUser = null; this.pendingCode = null;
+    this.startSession(user);
+  },
+  startSession(user){
+    this.currentUser = user;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({userId:user.id, loginAt:Date.now()}));
+    Audit.log(user, 'Inicio de sesión', 'Autenticación exitosa con MFA.');
+    UI.enterApp();
+  },
+  tryRestoreSession(){
+    try{
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if(!raw) return false;
+      const s = JSON.parse(raw);
+      const user = DB.data.usuarios.find(u=>u.id===s.userId);
+      if(!user) return false;
+      this.currentUser = user;
+      UI.enterApp();
+      return true;
+    }catch(e){ return false; }
+  },
+  logout(){
+    if(this.currentUser){ Audit.log(this.currentUser, 'Cierre de sesión', 'El usuario cerró sesión.'); }
+    this.currentUser = null;
+    sessionStorage.removeItem(SESSION_KEY);
+    document.getElementById('view-app').classList.add('hidden');
+    document.getElementById('view-login').classList.remove('hidden');
+    document.getElementById('login-username').value='';
+    document.getElementById('login-password').value='';
+    this.backToCredentials();
+  }
+};
+
+/* ---------------------------------------------------------------
+   AUDIT — bitácora
+--------------------------------------------------------------- */
+const Audit = {
+  log(user, accion, detalle){
+    DB.data.auditoria.unshift({
+      id: Util.uid('aud'), fecha: Util.nowISO(),
+      usuario: user ? user.username : 'sistema', rol: user ? user.role : 'Sistema',
+      accion, detalle: detalle||''
+    });
+    if(DB.data.auditoria.length > 5000) DB.data.auditoria.length = 5000;
+    DB.save();
+  }
+};
+/* ---------------------------------------------------------------
+   UI — shell, navegación, modales, seguridad, reloj
+--------------------------------------------------------------- */
+const UI = {
+  currentView: 'dashboard',
+
+  enterApp(){
+    document.getElementById('view-login').classList.add('hidden');
+    document.getElementById('view-app').classList.remove('hidden');
+    const u = Auth.currentUser;
+    document.getElementById('chip-name').textContent = u.nombre;
+    document.getElementById('chip-role').textContent = u.role;
+    document.getElementById('chip-av').textContent = u.nombre.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    this.applyRoleVisibility(u.role);
+    this.bindNav();
+    Maestros.populateAllSelects();
+    this.goto('dashboard');
+    Config.applyMaintenanceUI();
+    Clock.start();
+  },
+
+  applyRoleVisibility(role){
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      const roles = (item.getAttribute('data-roles')||'').split(',').map(s=>s.trim()).filter(Boolean);
+      item.style.display = (roles.length===0 || roles.includes(role)) ? 'flex' : 'none';
+    });
+  },
+
+  bindNav(){
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.onclick = () => UI.goto(item.getAttribute('data-view'));
+    });
+  },
+
+  TITLES: {
+    'dashboard': ['Panel Principal','Resumen general del sistema'],
+    'nueva-causacion': ['Nueva Causación Manual','Transacciones > Nueva Causación'],
+    'recurrencia': ['Programar Recurrencia','Transacciones > Programar Recurrencia'],
+    'bandeja': ['Bandeja de Aprobación','Causaciones pendientes de revisión y contabilización'],
+    'todas': ['Todas las Causaciones','Consulta general con filtros'],
+    'vencidas': ['Programaciones Vencidas','Recurrencias cuya vigencia expiró'],
+    'terceros': ['Terceros','Maestros > Terceros'],
+    'puc': ['Plan de Cuentas (PUC)','Configuración > Cuentas Contables'],
+    'tipos-ingreso': ['Tipos de Ingreso','Parametrización de cuentas y tasas por tipo de ingreso'],
+    'tasas': ['Tasas e Impuestos','Configuración > Tasas'],
+    'centros-costo': ['Centros de Costo','Maestros de centros de costo'],
+    'usuarios': ['Usuarios y Roles','Gestión de usuarios (RBAC)'],
+    'disponibilidad': ['Disponibilidad y Mantenimiento','Ventanas de mantenimiento programadas'],
+    'libro-auxiliar': ['Libro Auxiliar','Reportes > Libro Auxiliar'],
+    'comprobantes': ['Comprobantes Contables','Reportes > Comprobantes'],
+    'estado-cuenta': ['Estado de Cuenta por Tercero','Reportes > Estado de Cuenta'],
+    'batch': ['Procesamiento por Lote','Simulación de cierre de mes (NFR de rendimiento)'],
+    'auditoria': ['Auditoría','Bitácora de acciones del sistema'],
+    'trazabilidad': ['Trazabilidad de Requisitos','Matriz requisito → implementación'],
+    'ayuda': ['Ayuda y Soporte','Preguntas frecuentes y contacto']
+  },
+
+  goto(view){
+    const allowedRoles = {};
+    document.querySelectorAll('.nav-item').forEach(item=>{ allowedRoles[item.getAttribute('data-view')] = item.getAttribute('data-roles'); });
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    const target = document.getElementById('v-'+view);
+    if(!target) return;
+    target.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.toggle('active', i.getAttribute('data-view')===view));
+    const t = this.TITLES[view] || [view,''];
+    document.getElementById('page-title').textContent = t[0];
+    document.getElementById('page-subtitle').textContent = t[1];
+    this.currentView = view;
+    document.getElementById('sidebar').classList.remove('open');
+    this.renderView(view);
+  },
+
+  renderView(view){
+    switch(view){
+      case 'dashboard': Views.renderDashboard(); break;
+      case 'nueva-causacion': Causaciones.initManualView(); break;
+      case 'recurrencia': Causaciones.initRecurrenciaView(); break;
+      case 'bandeja': Views.renderBandeja(); break;
+      case 'todas': Views.renderTodas(); break;
+      case 'vencidas': Views.renderVencidas(); break;
+      case 'terceros': Maestros.renderTerceros(); break;
+      case 'puc': Maestros.renderPuc(); break;
+      case 'tipos-ingreso': Maestros.renderTiposIngreso(); break;
+      case 'tasas': Maestros.renderTasas(); break;
+      case 'centros-costo': Maestros.renderCentrosCosto(); break;
+      case 'usuarios': Maestros.renderUsuarios(); break;
+      case 'disponibilidad': Config.renderDisponibilidad(); break;
+      case 'libro-auxiliar': Reportes.initLibroAuxiliar(); break;
+      case 'comprobantes': Reportes.initComprobantes(); break;
+      case 'estado-cuenta': Reportes.initEstadoCuenta(); break;
+      case 'batch': Batch.render(); break;
+      case 'auditoria': Views.renderAuditoria(); break;
+      case 'trazabilidad': Views.renderTrazabilidad(); break;
+      case 'ayuda': Views.renderAyuda(); break;
+    }
+  },
+
+  toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); },
+
+  showSecurityInfo(){
+    UI.modal('🔒 Seguridad del Sistema', `
+      <table class="asiento-table">
+        <tr><td><b>Cifrado en tránsito</b></td><td>TLS 1.2+ obligatorio para toda comunicación cliente-servidor (objetivo de arquitectura de producción).</td></tr>
+        <tr><td><b>Cifrado en reposo</b></td><td>Base de datos financiera cifrada (AES-256) a nivel de disco/columna en el entorno productivo.</td></tr>
+        <tr><td><b>Autenticación</b></td><td>Usuario y contraseña + verificación en dos pasos (MFA). Punto de integración para SSO corporativo (SAML/OIDC).</td></tr>
+        <tr><td><b>Contraseñas</b></td><td>Almacenadas únicamente como hash SHA-256 (nunca en texto plano), incluso en este prototipo.</td></tr>
+        <tr><td><b>RBAC</b></td><td>Cada acción de la interfaz se habilita/oculta según el rol de la sesión activa (Administrador, Analista Contable, Coordinador).</td></tr>
+      </table>
+      <p class="small muted" style="margin-top:10px;">Nota académica: este es un prototipo de frontend estático; el cifrado real de transporte y de base de datos requiere un backend/servidor, fuera del alcance de un único archivo HTML.</p>
+    `, `<button class="btn btn-primary" onclick="UI.closeModal()">Entendido</button>`);
+  },
+
+  modal(title, bodyHtml, footHtml){
+    UI.closeModal();
+    const bd = document.createElement('div');
+    bd.className = 'modal-backdrop';
+    bd.id = 'active-modal-backdrop';
+    bd.innerHTML = `
+      <div class="modal">
+        <div class="modal-head"><h3>${title}</h3><button class="close-x" onclick="UI.closeModal()">✕</button></div>
+        <div class="modal-body">${bodyHtml}</div>
+        <div class="modal-foot">${footHtml||''}</div>
+      </div>`;
+    bd.addEventListener('click', (e)=>{ if(e.target === bd) UI.closeModal(); });
+    document.body.appendChild(bd);
+  },
+  closeModal(){
+    const el = document.getElementById('active-modal-backdrop');
+    if(el) el.remove();
+  }
+};
+
+const Clock = {
+  timer: null,
+  start(){
+    this.tick();
+    if(this.timer) clearInterval(this.timer);
+    this.timer = setInterval(()=>this.tick(), 1000*30);
+  },
+  tick(){
+    const el = document.getElementById('status-clock');
+    if(el) el.textContent = new Date().toLocaleString('es-CO',{weekday:'short',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    Config.applyMaintenanceUI();
+  }
+};
+
+/* ---------------------------------------------------------------
+   CONFIG — disponibilidad / ventana de mantenimiento
+--------------------------------------------------------------- */
+const Config = {
+  renderDisponibilidad(){
+    const c = DB.data.config.mantenimiento;
+    document.getElementById('dp-dia').value = c.dia;
+    document.getElementById('dp-hora-inicio').value = c.horaInicio;
+    document.getElementById('dp-hora-fin').value = c.horaFin;
+    document.getElementById('dp-activo').checked = !!c.activo;
+    document.getElementById('dp-uptime-sim').textContent = Config.simulatedUptime();
+  },
+  simulatedUptime(){
+    // Valor ilustrativo estable por sesión (no aleatorio en cada render) para el requisito de 99.9%
+    return '99.94%';
+  },
+  guardarDisponibilidad(){
+    if(Auth.currentUser.role !== 'Administrador'){ Toast.show('Solo el Administrador puede configurar ventanas de mantenimiento.','error'); return; }
+    const c = DB.data.config.mantenimiento;
+    c.dia = document.getElementById('dp-dia').value;
+    c.horaInicio = document.getElementById('dp-hora-inicio').value;
+    c.horaFin = document.getElementById('dp-hora-fin').value;
+    c.activo = document.getElementById('dp-activo').checked;
+    DB.save();
+    Audit.log(Auth.currentUser, 'Configuración de disponibilidad', `Ventana: ${c.dia} ${c.horaInicio}-${c.horaFin}, activo=${c.activo}`);
+    Toast.show('Configuración de disponibilidad guardada.','success');
+    Config.applyMaintenanceUI();
+  },
+  applyMaintenanceUI(){
+    const c = DB.data.config.mantenimiento;
+    const banner = document.getElementById('maint-banner');
+    const statusText = document.getElementById('status-op-text');
+    const maintText = document.getElementById('status-maint-text');
+    if(maintText) maintText.textContent = `Próxima ventana de mantenimiento: ${c.dia} ${c.horaInicio}–${c.horaFin}`;
+    if(c.activo){
+      banner.classList.remove('hidden');
+      if(statusText){ statusText.textContent = 'En mantenimiento programado'; }
+    } else {
+      banner.classList.add('hidden');
+      if(statusText){ statusText.textContent = 'Sistema operativo'; }
+    }
+  },
+  isWriteBlocked(){
+    return !!DB.data.config.mantenimiento.activo && Auth.currentUser.role !== 'Administrador';
+  }
+};
+/* ---------------------------------------------------------------
+   MAESTROS — Terceros, PUC, Tipos de Ingreso, Tasas, Centros de Costo, Usuarios
+--------------------------------------------------------------- */
+const Maestros = {
+
+  populateAllSelects(){
+    this.fillTercerosSelects();
+    this.fillTiposIngresoSelects();
+    this.fillCentrosCostoSelects();
+    this.fillPucSelects();
+    this.fillTasasSelects();
+  },
+
+  fillTercerosSelects(activosOnly){
+    const activos = DB.data.terceros.filter(t=> activosOnly===false ? true : t.estado==='Activo');
+    const opts = (list, includeEmpty) => (includeEmpty?'<option value="">Todos</option>':'') +
+      list.map(t=>`<option value="${t.id}">${Util.escapeHtml(t.razonSocial)} (NIT ${t.nit}-${t.dv})</option>`).join('');
+    ['nc-tercero','rc-tercero'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = '<option value="">Seleccione...</option>' + opts(activos,false); });
+    ['bd-f-tercero','td-f-tercero','la-f-tercero'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = opts(DB.data.terceros,true); });
+    const ec = document.getElementById('ec-tercero');
+    if(ec) ec.innerHTML = '<option value="">Seleccione un tercero...</option>' + opts(DB.data.terceros,false);
+  },
+
+  fillTiposIngresoSelects(){
+    const opts = DB.data.tiposIngreso.map(t=>`<option value="${t.id}">${Util.escapeHtml(t.nombre)}</option>`).join('');
+    ['nc-tipo','rc-tipo'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = '<option value="">Seleccione...</option>' + opts; });
+    ['bd-f-tipo','td-f-tipo','la-f-tipo'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = '<option value="">Todos</option>' + opts; });
+  },
+
+  fillCentrosCostoSelects(){
+    const opts = DB.data.centrosCosto.map(c=>`<option value="${c.id}">${c.codigo} — ${Util.escapeHtml(c.nombre)}</option>`).join('');
+    ['nc-cc','rc-cc'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML = '<option value="">Seleccione...</option>' + opts; });
+  },
+
+  fillPucSelects(){
+    const cred = DB.data.puc.filter(p=>p.naturaleza==='Crédito');
+    const deb = DB.data.puc.filter(p=>p.naturaleza==='Débito');
+    const optc = cred.map(p=>`<option value="${p.codigo}">${p.codigo} — ${Util.escapeHtml(p.nombre)}</option>`).join('');
+    const optd = deb.map(p=>`<option value="${p.codigo}">${p.codigo} — ${Util.escapeHtml(p.nombre)}</option>`).join('');
+    const ti1 = document.getElementById('ti-cta-ingreso'); if(ti1) ti1.innerHTML = optc;
+    const ti2 = document.getElementById('ti-cta-cxc'); if(ti2) ti2.innerHTML = optd;
+    const ti3 = document.getElementById('ti-cta-ret'); if(ti3) ti3.innerHTML = optd;
+  },
+
+  fillTasasSelects(){
+    const opts = DB.data.tasas.map(t=>`<option value="${t.id}">${Util.escapeHtml(t.nombre)} (${Util.pct(t.porcentaje)})</option>`).join('');
+    const el = document.getElementById('ti-tasa'); if(el) el.innerHTML = opts;
+  },
+
+  /* ---------- TERCEROS ---------- */
+  guardarTercero(){
+    const id = document.getElementById('tc-id').value;
+    const nit = document.getElementById('tc-nit').value.replace(/\D/g,'');
+    const razon = document.getElementById('tc-razon').value.trim();
+    const tipo = document.getElementById('tc-tipo').value;
+    const contacto = document.getElementById('tc-contacto').value.trim();
+    const estado = document.getElementById('tc-estado').value;
+    const errEl = document.getElementById('tc-error');
+    errEl.classList.add('hidden');
+    if(!nit || nit.length < 6 || !razon){
+      errEl.textContent = 'NIT (mínimo 6 dígitos) y Razón Social son obligatorios.';
+      errEl.classList.remove('hidden'); return;
+    }
+    const dup = DB.data.terceros.find(t=>t.nit===nit && t.id!==id);
+    if(dup){ errEl.textContent = 'Ya existe un tercero registrado con ese NIT.'; errEl.classList.remove('hidden'); return; }
+    const dv = Util.calcDV(nit);
+    if(id){
+      const t = DB.data.terceros.find(x=>x.id===id);
+      Object.assign(t, {nit, dv, razonSocial:razon, tipo, contacto, estado});
+      Audit.log(Auth.currentUser,'Actualizar tercero', `${razon} (NIT ${nit}-${dv})`);
+      Toast.show('Tercero actualizado correctamente.','success');
+    } else {
+      DB.data.terceros.push({id:Util.uid('ter'), nit, dv, razonSocial:razon, tipo, contacto, estado});
+      Audit.log(Auth.currentUser,'Crear tercero', `${razon} (NIT ${nit}-${dv})`);
+      Toast.show('Tercero creado correctamente.','success');
+    }
+    DB.save();
+    Maestros.limpiarTercero();
+    Maestros.renderTerceros();
+    Maestros.fillTercerosSelects();
+  },
+  limpiarTercero(){
+    ['tc-id','tc-nit','tc-razon','tc-contacto'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('tc-dv').value='';
+    document.getElementById('tc-tipo').value='Banco';
+    document.getElementById('tc-estado').value='Activo';
+    document.getElementById('tc-error').classList.add('hidden');
+  },
+  editarTercero(id){
+    const t = DB.data.terceros.find(x=>x.id===id); if(!t) return;
+    document.getElementById('tc-id').value = t.id;
+    document.getElementById('tc-nit').value = t.nit;
+    document.getElementById('tc-dv').value = t.dv;
+    document.getElementById('tc-tipo').value = t.tipo;
+    document.getElementById('tc-razon').value = t.razonSocial;
+    document.getElementById('tc-contacto').value = t.contacto;
+    document.getElementById('tc-estado').value = t.estado;
+    document.getElementById('terceros-form-card').scrollIntoView({behavior:'smooth'});
+  },
+  toggleEstadoTercero(id){
+    const t = DB.data.terceros.find(x=>x.id===id); if(!t) return;
+    t.estado = (t.estado==='Activo') ? 'Inactivo' : 'Activo';
+    DB.save();
+    Audit.log(Auth.currentUser, 'Cambiar estado de tercero', `${t.razonSocial} -> ${t.estado}`);
+    Maestros.renderTerceros();
+    Maestros.fillTercerosSelects();
+    Toast.show('Estado del tercero actualizado.','success');
+  },
+  renderTerceros(){
+    const tbody = document.getElementById('tbody-terceros');
+    if(!tbody) return;
+    const q = (document.getElementById('tc-search')?.value||'').toLowerCase();
+    let list = DB.data.terceros.filter(t=> !q || t.nit.includes(q) || t.razonSocial.toLowerCase().includes(q));
+    document.getElementById('tc-nit').oninput = ()=>{ document.getElementById('tc-dv').value = Util.calcDV(document.getElementById('tc-nit').value); };
+    if(list.length===0){ tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No hay terceros registrados.</td></tr>'; return; }
+    tbody.innerHTML = list.map(t=>`
+      <tr>
+        <td class="mono">${t.nit}-${t.dv}</td>
+        <td class="wrap">${Util.escapeHtml(t.razonSocial)}</td>
+        <td>${t.tipo}</td>
+        <td>${Util.escapeHtml(t.contacto||'—')}</td>
+        <td><span class="tag ${t.estado==='Activo'?'tag-activa':'tag-vencida'}">${t.estado}</span></td>
+        <td>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.editarTercero('${t.id}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.toggleEstadoTercero('${t.id}')">${t.estado==='Activo'?'🚫 Inactivar':'✅ Activar'}</button>
+        </td>
+      </tr>`).join('');
+  },
+
+  /* ---------- PUC ---------- */
+  guardarPuc(){
+    if(Auth.currentUser.role!=='Administrador'){ Toast.show('Solo el Administrador administra el Plan de Cuentas.','error'); return; }
+    const codigo = document.getElementById('puc-codigo').value.trim().replace(/[^A-Za-z0-9\-]/g,'');
+    const nombre = document.getElementById('puc-nombre').value.trim();
+    const naturaleza = document.getElementById('puc-naturaleza').value;
+    if(!codigo || !nombre){ Toast.show('Código (solo letras/números/guiones) y nombre son obligatorios.','error'); return; }
+    const existing = DB.data.puc.find(p=>p.codigo===codigo);
+    if(existing){ Object.assign(existing,{nombre,naturaleza}); Toast.show('Cuenta actualizada.','success'); }
+    else { DB.data.puc.push({codigo,nombre,naturaleza}); Toast.show('Cuenta creada.','success'); }
+    DB.save();
+    Audit.log(Auth.currentUser,'Guardar cuenta PUC', `${codigo} — ${nombre}`);
+    document.getElementById('puc-codigo').value=''; document.getElementById('puc-nombre').value='';
+    Maestros.renderPuc(); Maestros.fillPucSelects();
+  },
+  editarPuc(codigo){
+    const p = DB.data.puc.find(x=>x.codigo===codigo); if(!p) return;
+    document.getElementById('puc-codigo').value = p.codigo;
+    document.getElementById('puc-nombre').value = p.nombre;
+    document.getElementById('puc-naturaleza').value = p.naturaleza;
+  },
+  eliminarPuc(codigo){
+    const enUso = DB.data.tiposIngreso.some(t=>t.cuentaIngreso===codigo||t.cuentaCxC===codigo||t.cuentaRetencion===codigo);
+    if(enUso){ Toast.show('No se puede eliminar: la cuenta está en uso por un Tipo de Ingreso.','error'); return; }
+    DB.data.puc = DB.data.puc.filter(p=>p.codigo!==codigo);
+    DB.save(); Maestros.renderPuc(); Maestros.fillPucSelects();
+    Toast.show('Cuenta eliminada.','success');
+  },
+  renderPuc(){
+    const tbody = document.getElementById('tbody-puc'); if(!tbody) return;
+    const list = [...DB.data.puc].sort((a,b)=>a.codigo.localeCompare(b.codigo));
+    tbody.innerHTML = list.map(p=>`
+      <tr><td class="mono">${p.codigo}</td><td class="wrap">${Util.escapeHtml(p.nombre)}</td><td>${p.naturaleza}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="Maestros.editarPuc('${p.codigo}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.eliminarPuc('${p.codigo}')">🗑️ Eliminar</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="4">Sin cuentas registradas.</td></tr>';
+  },
+
+  /* ---------- TIPOS DE INGRESO ---------- */
+  guardarTipoIngreso(){
+    if(Auth.currentUser.role!=='Administrador'){ Toast.show('Solo el Administrador parametriza tipos de ingreso.','error'); return; }
+    const id = document.getElementById('ti-id').value || Util.uid('ti');
+    const nombre = document.getElementById('ti-nombre').value.trim();
+    const cuentaIngreso = document.getElementById('ti-cta-ingreso').value;
+    const cuentaCxC = document.getElementById('ti-cta-cxc').value;
+    const cuentaRetencion = document.getElementById('ti-cta-ret').value;
+    const tasaId = document.getElementById('ti-tasa').value;
+    if(!nombre || !cuentaIngreso || !cuentaCxC || !cuentaRetencion || !tasaId){ Toast.show('Todos los campos son obligatorios.','error'); return; }
+    const existing = DB.data.tiposIngreso.find(t=>t.id===id);
+    if(existing){ Object.assign(existing,{nombre,cuentaIngreso,cuentaCxC,cuentaRetencion,tasaId}); Toast.show('Tipo de ingreso actualizado.','success'); }
+    else { DB.data.tiposIngreso.push({id,nombre,cuentaIngreso,cuentaCxC,cuentaRetencion,tasaId}); Toast.show('Tipo de ingreso creado.','success'); }
+    DB.save();
+    Audit.log(Auth.currentUser,'Guardar tipo de ingreso', nombre);
+    document.getElementById('ti-id').value=''; document.getElementById('ti-nombre').value='';
+    Maestros.renderTiposIngreso(); Maestros.fillTiposIngresoSelects();
+  },
+  editarTipoIngreso(id){
+    const t = DB.data.tiposIngreso.find(x=>x.id===id); if(!t) return;
+    document.getElementById('ti-id').value = t.id;
+    document.getElementById('ti-nombre').value = t.nombre;
+    document.getElementById('ti-cta-ingreso').value = t.cuentaIngreso;
+    document.getElementById('ti-cta-cxc').value = t.cuentaCxC;
+    document.getElementById('ti-cta-ret').value = t.cuentaRetencion;
+    document.getElementById('ti-tasa').value = t.tasaId;
+  },
+  eliminarTipoIngreso(id){
+    const enUso = DB.data.causaciones.some(c=>c.tipoIngresoId===id) || DB.data.programaciones.some(p=>p.tipoIngresoId===id);
+    if(enUso){ Toast.show('No se puede eliminar: existen causaciones o programaciones asociadas.','error'); return; }
+    DB.data.tiposIngreso = DB.data.tiposIngreso.filter(t=>t.id!==id);
+    DB.save(); Maestros.renderTiposIngreso(); Maestros.fillTiposIngresoSelects();
+    Toast.show('Tipo de ingreso eliminado.','success');
+  },
+  renderTiposIngreso(){
+    const tbody = document.getElementById('tbody-tipos-ingreso'); if(!tbody) return;
+    tbody.innerHTML = DB.data.tiposIngreso.map(t=>{
+      const tasa = DB.data.tasas.find(x=>x.id===t.tasaId);
+      return `<tr><td>${Util.escapeHtml(t.nombre)}</td><td class="mono">${t.cuentaIngreso}</td><td class="mono">${t.cuentaCxC}</td><td class="mono">${t.cuentaRetencion}</td>
+        <td>${tasa?Util.pct(tasa.porcentaje):'—'}</td>
+        <td><button class="btn btn-ghost btn-sm" onclick="Maestros.editarTipoIngreso('${t.id}')">✏️ Editar</button>
+            <button class="btn btn-ghost btn-sm" onclick="Maestros.eliminarTipoIngreso('${t.id}')">🗑️ Eliminar</button></td></tr>`;
+    }).join('') || '<tr class="empty-row"><td colspan="6">Sin tipos de ingreso registrados.</td></tr>';
+  },
+
+  /* ---------- TASAS ---------- */
+  guardarTasa(){
+    if(Auth.currentUser.role!=='Administrador'){ Toast.show('Solo el Administrador configura tasas e impuestos.','error'); return; }
+    const id = document.getElementById('ta-id').value || Util.uid('tasa');
+    const nombre = document.getElementById('ta-nombre').value.trim();
+    const porcentaje = parseFloat(document.getElementById('ta-porcentaje').value);
+    if(!nombre || isNaN(porcentaje) || porcentaje<0 || porcentaje>100){ Toast.show('Nombre y porcentaje (0-100) son obligatorios.','error'); return; }
+    const existing = DB.data.tasas.find(t=>t.id===id);
+    if(existing){ Object.assign(existing,{nombre,porcentaje}); Toast.show('Tasa actualizada.','success'); }
+    else { DB.data.tasas.push({id,nombre,porcentaje}); Toast.show('Tasa creada.','success'); }
+    DB.save();
+    Audit.log(Auth.currentUser,'Guardar tasa', `${nombre} (${porcentaje}%)`);
+    document.getElementById('ta-id').value=''; document.getElementById('ta-nombre').value=''; document.getElementById('ta-porcentaje').value='';
+    Maestros.renderTasas(); Maestros.fillTasasSelects();
+  },
+  editarTasa(id){
+    const t = DB.data.tasas.find(x=>x.id===id); if(!t) return;
+    document.getElementById('ta-id').value = t.id;
+    document.getElementById('ta-nombre').value = t.nombre;
+    document.getElementById('ta-porcentaje').value = t.porcentaje;
+  },
+  eliminarTasa(id){
+    const enUso = DB.data.tiposIngreso.some(t=>t.tasaId===id);
+    if(enUso){ Toast.show('No se puede eliminar: la tasa está asignada a un Tipo de Ingreso.','error'); return; }
+    DB.data.tasas = DB.data.tasas.filter(t=>t.id!==id);
+    DB.save(); Maestros.renderTasas(); Maestros.fillTasasSelects();
+    Toast.show('Tasa eliminada.','success');
+  },
+  renderTasas(){
+    const tbody = document.getElementById('tbody-tasas'); if(!tbody) return;
+    tbody.innerHTML = DB.data.tasas.map(t=>`
+      <tr><td>${Util.escapeHtml(t.nombre)}</td><td class="num mono">${Util.pct(t.porcentaje)}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="Maestros.editarTasa('${t.id}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.eliminarTasa('${t.id}')">🗑️ Eliminar</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="3">Sin tasas registradas.</td></tr>';
+  },
+
+  /* ---------- CENTROS DE COSTO ---------- */
+  guardarCentroCosto(){
+    if(Auth.currentUser.role!=='Administrador'){ Toast.show('Solo el Administrador administra centros de costo.','error'); return; }
+    const id = document.getElementById('cc-id').value || Util.uid('cc');
+    const codigo = document.getElementById('cc-codigo').value.trim();
+    const nombre = document.getElementById('cc-nombre').value.trim();
+    if(!codigo || !nombre){ Toast.show('Código y nombre son obligatorios.','error'); return; }
+    const existing = DB.data.centrosCosto.find(c=>c.id===id);
+    if(existing){ Object.assign(existing,{codigo,nombre}); Toast.show('Centro de costo actualizado.','success'); }
+    else { DB.data.centrosCosto.push({id,codigo,nombre}); Toast.show('Centro de costo creado.','success'); }
+    DB.save();
+    Audit.log(Auth.currentUser,'Guardar centro de costo', `${codigo} — ${nombre}`);
+    document.getElementById('cc-id').value=''; document.getElementById('cc-codigo').value=''; document.getElementById('cc-nombre').value='';
+    Maestros.renderCentrosCosto(); Maestros.fillCentrosCostoSelects();
+  },
+  editarCentroCosto(id){
+    const c = DB.data.centrosCosto.find(x=>x.id===id); if(!c) return;
+    document.getElementById('cc-id').value = c.id;
+    document.getElementById('cc-codigo').value = c.codigo;
+    document.getElementById('cc-nombre').value = c.nombre;
+  },
+  eliminarCentroCosto(id){
+    const enUso = DB.data.causaciones.some(c=>c.centroCostoId===id) || DB.data.programaciones.some(p=>p.centroCostoId===id);
+    if(enUso){ Toast.show('No se puede eliminar: existen causaciones asociadas a este centro de costo.','error'); return; }
+    DB.data.centrosCosto = DB.data.centrosCosto.filter(c=>c.id!==id);
+    DB.save(); Maestros.renderCentrosCosto(); Maestros.fillCentrosCostoSelects();
+    Toast.show('Centro de costo eliminado.','success');
+  },
+  renderCentrosCosto(){
+    const tbody = document.getElementById('tbody-centros-costo'); if(!tbody) return;
+    tbody.innerHTML = DB.data.centrosCosto.map(c=>`
+      <tr><td class="mono">${c.codigo}</td><td>${Util.escapeHtml(c.nombre)}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="Maestros.editarCentroCosto('${c.id}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.eliminarCentroCosto('${c.id}')">🗑️ Eliminar</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="3">Sin centros de costo registrados.</td></tr>';
+  },
+
+  /* ---------- USUARIOS ---------- */
+  async guardarUsuario(){
+    if(Auth.currentUser.role!=='Administrador'){ Toast.show('Solo el Administrador gestiona usuarios.','error'); return; }
+    const id = document.getElementById('us-id').value;
+    const username = document.getElementById('us-username').value.trim().toLowerCase();
+    const nombre = document.getElementById('us-nombre').value.trim();
+    const role = document.getElementById('us-rol').value;
+    const password = document.getElementById('us-password').value;
+    const errEl = document.getElementById('us-error');
+    errEl.classList.add('hidden');
+    if(!username || !nombre){ errEl.textContent='Usuario y nombre son obligatorios.'; errEl.classList.remove('hidden'); return; }
+    const dup = DB.data.usuarios.find(u=>u.username===username && u.id!==id);
+    if(dup){ errEl.textContent='Ya existe un usuario con ese nombre de usuario.'; errEl.classList.remove('hidden'); return; }
+    if(id){
+      const u = DB.data.usuarios.find(x=>x.id===id);
+      Object.assign(u,{username,nombre,role});
+      if(password){ u.passwordHash = await Util.sha256(password); }
+      Toast.show('Usuario actualizado.','success');
+      Audit.log(Auth.currentUser,'Actualizar usuario', username);
+    } else {
+      if(!password || password.length<6){ errEl.textContent='La contraseña debe tener al menos 6 caracteres.'; errEl.classList.remove('hidden'); return; }
+      DB.data.usuarios.push({id:Util.uid('usr'), username, nombre, role, activo:true, passwordHash: await Util.sha256(password)});
+      Toast.show('Usuario creado.','success');
+      Audit.log(Auth.currentUser,'Crear usuario', username);
+    }
+    DB.save();
+    Maestros.limpiarUsuario();
+    Maestros.renderUsuarios();
+  },
+  limpiarUsuario(){
+    ['us-id','us-username','us-nombre','us-password'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('us-rol').value='Analista Contable';
+    document.getElementById('us-error').classList.add('hidden');
+  },
+  editarUsuario(id){
+    const u = DB.data.usuarios.find(x=>x.id===id); if(!u) return;
+    document.getElementById('us-id').value = u.id;
+    document.getElementById('us-username').value = u.username;
+    document.getElementById('us-nombre').value = u.nombre;
+    document.getElementById('us-rol').value = u.role;
+    document.getElementById('us-password').value='';
+  },
+  toggleActivoUsuario(id){
+    if(id===Auth.currentUser.id){ Toast.show('No puede desactivar su propio usuario.','error'); return; }
+    const u = DB.data.usuarios.find(x=>x.id===id); if(!u) return;
+    u.activo = !u.activo;
+    DB.save(); Maestros.renderUsuarios();
+    Audit.log(Auth.currentUser,'Cambiar estado de usuario', `${u.username} -> ${u.activo?'Activo':'Inactivo'}`);
+  },
+  renderUsuarios(){
+    const tbody = document.getElementById('tbody-usuarios'); if(!tbody) return;
+    tbody.innerHTML = DB.data.usuarios.map(u=>`
+      <tr><td class="mono">${Util.escapeHtml(u.username)}</td><td>${Util.escapeHtml(u.nombre)}</td>
+      <td><span class="tag tag-role">${u.role}</span></td>
+      <td><span class="tag ${u.activo?'tag-activa':'tag-vencida'}">${u.activo?'Activo':'Inactivo'}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="Maestros.editarUsuario('${u.id}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" onclick="Maestros.toggleActivoUsuario('${u.id}')">${u.activo?'🚫 Desactivar':'✅ Activar'}</button></td></tr>`).join('');
+  }
+};
+/* ---------------------------------------------------------------
+   CAUSACIONES — motor de asientos, formularios, flujo de aprobación
+--------------------------------------------------------------- */
+const PERIOD_MONTHS = {Mensual:1, Trimestral:3, Semestral:6};
+
+const Causaciones = {
+
+  calcularAsiento(tipoIngresoId, valorBase){
+    const tipo = DB.data.tiposIngreso.find(t=>t.id===tipoIngresoId);
+    if(!tipo || !valorBase || valorBase<=0) return null;
+    const tasa = DB.data.tasas.find(t=>t.id===tipo.tasaId) || {porcentaje:0, nombre:'Sin Retención'};
+    const cIngreso = DB.data.puc.find(p=>p.codigo===tipo.cuentaIngreso);
+    const cCxC = DB.data.puc.find(p=>p.codigo===tipo.cuentaCxC);
+    const cRet = DB.data.puc.find(p=>p.codigo===tipo.cuentaRetencion);
+    const valorRetencion = round2(valorBase * (tasa.porcentaje/100));
+    const valorNeto = round2(valorBase - valorRetencion);
+    const rows = [
+      {cuenta:cCxC?.codigo, nombre:cCxC?.nombre, debe:valorNeto, haber:0}
+    ];
+    if(valorRetencion>0){ rows.push({cuenta:cRet?.codigo, nombre:cRet?.nombre, debe:valorRetencion, haber:0}); }
+    rows.push({cuenta:cIngreso?.codigo, nombre:cIngreso?.nombre, debe:0, haber:valorBase});
+    const totalDebe = round2(rows.reduce((s,r)=>s+r.debe,0));
+    const totalHaber = round2(rows.reduce((s,r)=>s+r.haber,0));
+    return {
+      tipo, tasa, valorBase, valorRetencion, valorNeto, rows,
+      cuentaIngreso:tipo.cuentaIngreso, cuentaCxC:tipo.cuentaCxC, cuentaRetencion:tipo.cuentaRetencion,
+      totalDebe, totalHaber, balanced: Math.abs(totalDebe-totalHaber) < 0.01
+    };
+  },
+
+  renderAsientoTable(asiento){
+    if(!asiento){
+      return '<p class="muted small">Seleccione tercero, tipo de ingreso e ingrese un valor base para ver la vista previa del asiento.</p>';
+    }
+    const rowsHtml = asiento.rows.map(r=>`
+      <tr><td>${r.cuenta||'—'} — ${Util.escapeHtml(r.nombre||'')}</td>
+      <td class="num mono">${r.debe? Util.money(r.debe):''}</td>
+      <td class="num mono">${r.haber? Util.money(r.haber):''}</td></tr>`).join('');
+    return `
+      <table class="asiento-table">
+        <thead><tr><th>Cuenta</th><th class="num">Debe</th><th class="num">Haber</th></tr></thead>
+        <tbody>${rowsHtml}</tbody>
+        <tfoot><tr class="asiento-total-row"><td>Totales</td><td class="num mono">${Util.money(asiento.totalDebe)}</td><td class="num mono">${Util.money(asiento.totalHaber)}</td></tr></tfoot>
+      </table>
+      <p style="margin-top:8px;">${asiento.balanced ? '<span class="balance-ok">✔ Débitos = Créditos — el asiento cuadra.</span>' : '<span class="balance-bad">✘ Descuadre — Débitos ≠ Créditos, no se puede guardar.</span>'}</p>
+      <table class="asiento-table" style="margin-top:6px;">
+        <tr><td>Tasa de retención aplicada</td><td class="num mono">${asiento.tasa.nombre} — ${Util.pct(asiento.tasa.porcentaje)}</td></tr>
+        <tr><td>Valor Base</td><td class="num mono">${Util.money(asiento.valorBase)}</td></tr>
+        <tr><td>Retención en la fuente</td><td class="num mono">${Util.money(asiento.valorRetencion)}</td></tr>
+        <tr><td><b>Valor Neto a Cobrar</b></td><td class="num mono"><b>${Util.money(asiento.valorNeto)}</b></td></tr>
+      </table>`;
+  },
+
+  recalcular(prefix){
+    const tercero = document.getElementById(prefix+'-tercero').value;
+    const tipo = document.getElementById(prefix+'-tipo').value;
+    const valor = parseFloat(document.getElementById(prefix+'-valor').value);
+    const preview = document.getElementById(prefix+'-preview');
+    const btn = document.getElementById(prefix+'-btn-guardar');
+    let asiento = null;
+    if(tipo && valor>0){ asiento = this.calcularAsiento(tipo, valor); }
+    preview.innerHTML = this.renderAsientoTable(asiento);
+    const cc = document.getElementById(prefix+'-cc').value;
+    const concepto = document.getElementById(prefix+'-concepto') ? document.getElementById(prefix+'-concepto').value.trim() : '';
+    const ok = asiento && asiento.balanced && tercero && cc && concepto;
+    btn.disabled = !ok;
+    return asiento;
+  },
+
+  initManualView(){
+    this.limpiarForm('nc');
+    Views.renderBorradores();
+  },
+  initRecurrenciaView(){
+    this.limpiarForm('rc');
+    document.getElementById('rc-inicio').value = Util.todayISO();
+    Views.renderProgramaciones();
+  },
+  limpiarForm(prefix){
+    ['tercero','tipo','valor','cc'].forEach(f=>{ const el=document.getElementById(prefix+'-'+f); if(el) el.value=''; });
+    const concepto = document.getElementById(prefix+'-concepto'); if(concepto) concepto.value='';
+    const err = document.getElementById(prefix+'-error'); if(err) err.classList.add('hidden');
+    const preview = document.getElementById(prefix+'-preview'); if(preview) preview.innerHTML = this.renderAsientoTable(null);
+    const btn = document.getElementById(prefix+'-btn-guardar'); if(btn) btn.disabled = true;
+    if(prefix==='rc'){ document.getElementById('rc-periodicidad').value='Mensual'; document.getElementById('rc-fin').value=''; }
+  },
+
+  guardarManual(){
+    if(Config.isWriteBlocked()){ Toast.show('El sistema está en ventana de mantenimiento programada.','warn'); return; }
+    const t0 = performance.now();
+    const terceroId = document.getElementById('nc-tercero').value;
+    const tipoIngresoId = document.getElementById('nc-tipo').value;
+    const valorBase = parseFloat(document.getElementById('nc-valor').value);
+    const centroCostoId = document.getElementById('nc-cc').value;
+    const concepto = document.getElementById('nc-concepto').value.trim();
+    const errEl = document.getElementById('nc-error');
+    errEl.classList.add('hidden');
+    const asiento = this.recalcular('nc');
+    if(!terceroId || !tipoIngresoId || !valorBase || valorBase<=0 || !centroCostoId || !concepto){
+      errEl.textContent = 'Complete todos los campos obligatorios (*) antes de guardar.'; errEl.classList.remove('hidden'); return;
+    }
+    if(!asiento || !asiento.balanced){
+      errEl.textContent = 'Error de Sumas no Iguales: verifique las tasas configuradas; Débitos debe ser igual a Créditos.'; errEl.classList.remove('hidden'); return;
+    }
+    const cau = {
+      id: Util.uid('cau'), consecutivo: null, origen:'Manual', estado:'Borrador',
+      terceroId, tipoIngresoId, valorBase, valorRetencion:asiento.valorRetencion, valorNeto:asiento.valorNeto,
+      cuentaIngreso:asiento.cuentaIngreso, cuentaCxC:asiento.cuentaCxC, cuentaRetencion:asiento.cuentaRetencion,
+      centroCostoId, concepto,
+      fechaCreacion:new Date().toISOString(), creadoPor:Auth.currentUser.username,
+      aprobadoPor:null, fechaAprobacion:null, motivoRechazo:null, cobrado:false, fechaCobro:null, esSimulacion:false
+    };
+    DB.data.causaciones.push(cau);
+    DB.save();
+    Audit.log(Auth.currentUser, 'Crear causación manual (Borrador)', `${Views.terceroNombre(terceroId)} — ${Util.money(valorBase)}`);
+    const ms = Math.round(performance.now()-t0);
+    document.getElementById('nc-latency').textContent = `Tiempo de respuesta del formulario: ${ms} ms ${ms<=2000?'✅ dentro del SLA (≤ 2000 ms)':'⚠️ supera el SLA'}`;
+    Toast.show('Causación guardada como Borrador.','success');
+    this.limpiarForm('nc');
+    Views.renderBorradores();
+    Views.renderDashboard();
+  },
+
+  enviarAprobacion(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(c.estado!=='Borrador'){ Toast.show('Solo los borradores pueden enviarse a aprobación.','error'); return; }
+    c.estado = 'Pendiente de Aprobación';
+    DB.save();
+    Audit.log(Auth.currentUser,'Enviar a aprobación', `Consecutivo interno ${c.id.slice(-6)} — ${Views.terceroNombre(c.terceroId)}`);
+    Toast.show('Causación enviada a la bandeja de aprobación del Coordinador.','success');
+    Views.renderBorradores(); Views.renderDashboard();
+  },
+  eliminarBorrador(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(c.estado!=='Borrador'){ Toast.show('Solo se pueden eliminar causaciones en Borrador.','error'); return; }
+    DB.data.causaciones = DB.data.causaciones.filter(x=>x.id!==id);
+    DB.save();
+    Audit.log(Auth.currentUser,'Eliminar borrador', id);
+    Views.renderBorradores(); Views.renderDashboard();
+    Toast.show('Borrador eliminado.','success');
+  },
+  corregirRechazada(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(c.estado!=='Rechazado'){ return; }
+    c.estado = 'Borrador'; c.motivoRechazoAnterior = c.motivoRechazo; c.motivoRechazo=null; c.aprobadoPor=null; c.fechaAprobacion=null;
+    DB.save();
+    Audit.log(Auth.currentUser,'Reabrir causación rechazada', id);
+    Toast.show('La causación volvió a estado Borrador para corrección.','success');
+    Views.renderTodas(); Views.renderBorradores();
+  },
+
+  guardarRecurrencia(){
+    if(Config.isWriteBlocked()){ Toast.show('El sistema está en ventana de mantenimiento programada.','warn'); return; }
+    const terceroId = document.getElementById('rc-tercero').value;
+    const tipoIngresoId = document.getElementById('rc-tipo').value;
+    const valorBase = parseFloat(document.getElementById('rc-valor').value);
+    const centroCostoId = document.getElementById('rc-cc').value;
+    const concepto = document.getElementById('rc-concepto').value.trim();
+    const periodicidad = document.getElementById('rc-periodicidad').value;
+    const fechaInicio = document.getElementById('rc-inicio').value;
+    const fechaFin = document.getElementById('rc-fin').value || null;
+    const errEl = document.getElementById('rc-error');
+    errEl.classList.add('hidden');
+    const asiento = this.recalcular('rc');
+    if(!terceroId || !tipoIngresoId || !valorBase || valorBase<=0 || !centroCostoId || !concepto || !fechaInicio){
+      errEl.textContent = 'Complete todos los campos obligatorios (*) antes de programar.'; errEl.classList.remove('hidden'); return;
+    }
+    if(!asiento || !asiento.balanced){
+      errEl.textContent = 'Error de Sumas no Iguales en el asiento parametrizado.'; errEl.classList.remove('hidden'); return;
+    }
+    if(fechaFin && fechaFin < fechaInicio){
+      errEl.textContent = 'La fecha fin no puede ser anterior a la fecha de inicio.'; errEl.classList.remove('hidden'); return;
+    }
+    const prog = {
+      id: Util.uid('prog'), terceroId, tipoIngresoId, valorBase, concepto, centroCostoId,
+      periodicidad, fechaInicio, fechaFin, estado:'Activa',
+      creadoPor:Auth.currentUser.username, proximaGeneracion: fechaInicio, ultimaGeneracion:null
+    };
+    DB.data.programaciones.push(prog);
+    DB.save();
+    Audit.log(Auth.currentUser,'Programar recurrencia', `${Views.terceroNombre(terceroId)} — ${periodicidad} desde ${fechaInicio}`);
+    Toast.show('Recurrencia programada correctamente.','success');
+    this.limpiarForm('rc');
+    document.getElementById('rc-inicio').value = Util.todayISO();
+    Views.renderProgramaciones();
+  },
+  cancelarProgramacion(id){
+    const p = DB.data.programaciones.find(x=>x.id===id); if(!p) return;
+    p.estado = 'Cancelada';
+    DB.save();
+    Audit.log(Auth.currentUser,'Cancelar programación', id);
+    Views.renderProgramaciones(); Views.renderVencidas();
+    Toast.show('Programación cancelada.','success');
+  },
+  reactivarProgramacion(id, nuevaFechaFin){
+    const p = DB.data.programaciones.find(x=>x.id===id); if(!p) return;
+    p.fechaFin = nuevaFechaFin || null;
+    p.estado = 'Activa';
+    if(p.proximaGeneracion < Util.todayISO()) p.proximaGeneracion = Util.todayISO();
+    DB.save();
+    Audit.log(Auth.currentUser,'Reactivar programación vencida', id);
+    Views.renderProgramaciones(); Views.renderVencidas();
+    Toast.show('Programación reactivada.','success');
+  },
+
+  addMonthsISO(iso, months){
+    const d = new Date(iso+'T00:00:00');
+    d.setMonth(d.getMonth()+months);
+    return d.toISOString().slice(0,10);
+  },
+
+  // Revisa programaciones activas y genera causaciones automáticas cuyo ciclo ya se cumplió.
+  generarAutomaticas(showToast){
+    const hoy = Util.todayISO();
+    let generadas = 0;
+    DB.data.programaciones.forEach(p=>{
+      if(p.estado==='Cancelada') return;
+      if(p.fechaFin && p.fechaFin < hoy && p.estado!=='Vencida'){ p.estado='Vencida'; return; }
+      if(p.estado!=='Activa') return;
+      let guard = 0;
+      while(p.proximaGeneracion <= hoy && guard < 60){
+        if(p.fechaFin && p.proximaGeneracion > p.fechaFin) { p.estado='Vencida'; break; }
+        const asiento = this.calcularAsiento(p.tipoIngresoId, p.valorBase);
+        if(asiento && asiento.balanced){
+          DB.data.causaciones.push({
+            id: Util.uid('cau'), consecutivo:null, origen:'Automático', estado:'Pendiente de Aprobación',
+            terceroId:p.terceroId, tipoIngresoId:p.tipoIngresoId, valorBase:p.valorBase,
+            valorRetencion:asiento.valorRetencion, valorNeto:asiento.valorNeto,
+            cuentaIngreso:asiento.cuentaIngreso, cuentaCxC:asiento.cuentaCxC, cuentaRetencion:asiento.cuentaRetencion,
+            centroCostoId:p.centroCostoId, concepto:p.concepto + ' (generación automática '+p.proximaGeneracion+')',
+            fechaCreacion:new Date().toISOString(), creadoPor:'Sistema (Automático)',
+            aprobadoPor:null, fechaAprobacion:null, motivoRechazo:null, cobrado:false, fechaCobro:null,
+            esSimulacion:false, programacionId:p.id
+          });
+          generadas++;
+        }
+        p.ultimaGeneracion = p.proximaGeneracion;
+        p.proximaGeneracion = this.addMonthsISO(p.proximaGeneracion, PERIOD_MONTHS[p.periodicidad]||1);
+        guard++;
+        if(p.fechaFin && p.proximaGeneracion > p.fechaFin){ /* seguirá evaluando vencimiento en próxima pasada */ }
+      }
+    });
+    if(generadas>0){ DB.save(); }
+    if(showToast){ Toast.show(generadas>0 ? `${generadas} causación(es) automática(s) generada(s) en estado Pendiente de Aprobación.` : 'No hay causaciones automáticas pendientes de generar hoy.', generadas>0?'success':'warn'); }
+    return generadas;
+  },
+
+  aprobar(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(Auth.currentUser.role!=='Coordinador'){ Toast.show('Solo un Coordinador puede aprobar y contabilizar.','error'); return; }
+    if(c.estado!=='Pendiente de Aprobación'){ Toast.show('La causación no está pendiente de aprobación.','error'); return; }
+    if(c.creadoPor===Auth.currentUser.username){
+      Toast.show('Botón de Aprobación Bloqueado: por control dual (Maker-Checker) no puede aprobar una causación creada por su propio usuario. Debe ser aprobada por otro Coordinador.','error');
+      return;
+    }
+    c.estado = 'Contabilizado';
+    c.aprobadoPor = Auth.currentUser.username;
+    c.fechaAprobacion = new Date().toISOString();
+    c.consecutivo = DB.data.config.consecutivo++;
+    DB.save();
+    Audit.log(Auth.currentUser,'Aprobar y contabilizar', `Comprobante ${c.consecutivo} — ${Views.terceroNombre(c.terceroId)} — ${Util.money(c.valorNeto)}`);
+    Toast.show(`Causación contabilizada. Comprobante N° ${c.consecutivo}.`,'success');
+    UI.closeModal();
+    Views.renderBandeja(); Views.renderDashboard();
+  },
+  rechazar(id, motivo){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(Auth.currentUser.role!=='Coordinador'){ Toast.show('Solo un Coordinador puede rechazar.','error'); return; }
+    if(!motivo || !motivo.trim()){ Toast.show('Debe indicar el motivo del rechazo.','error'); return; }
+    c.estado = 'Rechazado';
+    c.aprobadoPor = Auth.currentUser.username;
+    c.fechaAprobacion = new Date().toISOString();
+    c.motivoRechazo = motivo.trim();
+    DB.save();
+    Audit.log(Auth.currentUser,'Rechazar causación', `${Views.terceroNombre(c.terceroId)} — Motivo: ${motivo.trim()}`);
+    Toast.show('Causación rechazada y devuelta al analista.','warn');
+    UI.closeModal();
+    Views.renderBandeja(); Views.renderDashboard();
+  },
+  marcarCobro(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    if(!['Coordinador','Administrador'].includes(Auth.currentUser.role)){ Toast.show('No tiene permisos para registrar el cobro.','error'); return; }
+    if(c.estado!=='Contabilizado'){ Toast.show('Solo se puede registrar cobro de causaciones Contabilizadas.','error'); return; }
+    c.cobrado = true; c.fechaCobro = Util.todayISO();
+    DB.save();
+    Audit.log(Auth.currentUser,'Registrar cobro', `Comprobante ${c.consecutivo}`);
+    Toast.show('Cobro registrado. Saldo pendiente actualizado.','success');
+    Views.renderTodas(); Reportes.renderEstadoCuenta && Reportes.renderEstadoCuenta();
+  }
+};
+/* ---------------------------------------------------------------
+   VIEWS — dashboard, listados, auditoría, trazabilidad, ayuda
+--------------------------------------------------------------- */
+const ESTADO_TAG = {
+  'Borrador':'tag-borrador', 'Pendiente de Aprobación':'tag-pendiente',
+  'Contabilizado':'tag-contabilizado', 'Rechazado':'tag-rechazado',
+  'Activa':'tag-activa', 'Vencida':'tag-vencida', 'Cancelada':'tag-borrador'
+};
+
+const Views = {
+  currentTodasRows: [],
+  currentAuditRows: [],
+
+  terceroNombre(id){ const t = DB.data.terceros.find(x=>x.id===id); return t ? t.razonSocial : '—'; },
+  tipoIngresoNombre(id){ const t = DB.data.tiposIngreso.find(x=>x.id===id); return t ? t.nombre : '—'; },
+  centroCostoNombre(id){ const c = DB.data.centrosCosto.find(x=>x.id===id); return c ? (c.codigo+' — '+c.nombre) : '—'; },
+  usuarioNombre(username){ const u = DB.data.usuarios.find(x=>x.username===username); return u ? u.nombre : (username||'—'); },
+  tag(estado){ return `<span class="tag ${ESTADO_TAG[estado]||'tag-borrador'}">${estado}</span>`; },
+
+  renderDashboard(){
+    Causaciones.generarAutomaticas(false);
+    const cs = DB.data.causaciones;
+    const pendientes = cs.filter(c=>c.estado==='Pendiente de Aprobación' && !c.esSimulacion);
+    const borradores = cs.filter(c=>c.estado==='Borrador');
+    const now = new Date();
+    const esteMes = cs.filter(c=>c.estado==='Contabilizado' && !c.esSimulacion && c.fechaAprobacion && new Date(c.fechaAprobacion).getMonth()===now.getMonth() && new Date(c.fechaAprobacion).getFullYear()===now.getFullYear());
+    const totalMes = esteMes.reduce((s,c)=>s+c.valorNeto,0);
+    const vencidas = DB.data.programaciones.filter(p=>p.estado==='Vencida');
+
+    document.getElementById('dash-kpis').innerHTML = `
+      <div class="kpi warn"><div class="kpi-label">Pendientes de Aprobación</div><div class="kpi-value">${pendientes.length}</div><div class="kpi-sub">En bandeja del Coordinador</div></div>
+      <div class="kpi ok"><div class="kpi-label">Contabilizadas este mes</div><div class="kpi-value">${esteMes.length}</div><div class="kpi-sub">${Util.money(totalMes)} en ingresos causados</div></div>
+      <div class="kpi"><div class="kpi-label">Borradores</div><div class="kpi-value">${borradores.length}</div><div class="kpi-sub">Sin enviar a aprobación</div></div>
+      <div class="kpi ${vencidas.length>0?'danger':''}"><div class="kpi-label">Programaciones Vencidas</div><div class="kpi-value">${vencidas.length}</div><div class="kpi-sub">Requieren revisión</div></div>`;
+
+    const alerts = [];
+    if(vencidas.length>0) alerts.push(`⏰ Hay <b>${vencidas.length}</b> programación(es) recurrente(s) vencida(s). Revise "Programaciones Vencidas".`);
+    const inactivos = DB.data.terceros.filter(t=>t.estado==='Inactivo').length;
+    if(inactivos>0) alerts.push(`🏦 Hay <b>${inactivos}</b> tercero(s) inactivo(s) que no aparecerán en el formulario de causación.`);
+    if(pendientes.length>0) alerts.push(`📥 Tiene <b>${pendientes.length}</b> causación(es) esperando aprobación en la bandeja.`);
+    const rechazadas = cs.filter(c=>c.estado==='Rechazado').length;
+    if(rechazadas>0) alerts.push(`↩️ Hay <b>${rechazadas}</b> causación(es) rechazada(s) pendientes de corrección.`);
+    document.getElementById('dash-alerts').innerHTML = alerts.length ? '<ul style="padding-left:18px;line-height:1.9;">'+alerts.map(a=>`<li>${a}</li>`).join('')+'</ul>' : '<p class="muted small">Sin alertas activas. Todo al día.</p>';
+
+    document.getElementById('dash-uptime-sim').textContent = Config.simulatedUptime();
+    const mc = DB.data.config.mantenimiento;
+    document.getElementById('dash-maint-window').textContent = `${mc.dia} ${mc.horaInicio}–${mc.horaFin}`;
+    const lastBatch = sessionStorage.getItem('sino_last_batch');
+    document.getElementById('dash-last-batch').textContent = lastBatch || 'Sin ejecutar en esta sesión';
+
+    const acts = {
+      'Analista Contable': ['<button class="btn btn-primary btn-sm" onclick="UI.goto(\'nueva-causacion\')">🧾 Nueva Causación</button>','<button class="btn btn-ghost btn-sm" onclick="UI.goto(\'recurrencia\')">🔁 Programar Recurrencia</button>'],
+      'Coordinador': ['<button class="btn btn-primary btn-sm" onclick="UI.goto(\'bandeja\')">📥 Ir a Bandeja</button>'],
+      'Administrador': ['<button class="btn btn-primary btn-sm" onclick="UI.goto(\'usuarios\')">👥 Usuarios</button>','<button class="btn btn-ghost btn-sm" onclick="UI.goto(\'batch\')">⚡ Procesamiento por Lote</button>']
+    };
+    document.getElementById('dash-quick-actions').innerHTML = (acts[Auth.currentUser.role]||[]).join('');
+
+    const tbody = document.getElementById('tbody-dashboard-actividad');
+    const rows = DB.data.auditoria.slice(0,10);
+    tbody.innerHTML = rows.map(a=>`<tr><td class="mono">${Util.fmtDate(a.fecha)}</td><td>${Util.escapeHtml(Views.usuarioNombre(a.usuario))}</td><td>${Util.escapeHtml(a.accion)}</td><td class="wrap">${Util.escapeHtml(a.detalle)}</td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="4">Sin actividad registrada.</td></tr>';
+  },
+
+  renderBorradores(){
+    const tbody = document.getElementById('tbody-borradores'); if(!tbody) return;
+    const isAdmin = Auth.currentUser.role==='Administrador';
+    const list = DB.data.causaciones.filter(c=>c.estado==='Borrador' && (isAdmin || c.creadoPor===Auth.currentUser.username));
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">#${c.id.slice(-6)}</td><td class="mono">${Util.fmtDateShort(c.fechaCreacion.slice(0,10))}</td>
+      <td class="wrap">${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(c.valorBase)}</td><td class="num mono">${Util.money(c.valorNeto)}</td>
+      <td>${Views.centroCostoNombre(c.centroCostoId)}</td><td>${Views.tag(c.estado)}</td>
+      <td><button class="btn btn-success btn-sm" onclick="Causaciones.enviarAprobacion('${c.id}')">📤 Enviar a Aprobación</button>
+          <button class="btn btn-ghost btn-sm" onclick="Causaciones.eliminarBorrador('${c.id}')">🗑️</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="9">No tiene causaciones en borrador.</td></tr>';
+  },
+
+  renderProgramaciones(){
+    const tbody = document.getElementById('tbody-programaciones'); if(!tbody) return;
+    Causaciones.generarAutomaticas(false);
+    tbody.innerHTML = DB.data.programaciones.map(p=>`
+      <tr><td class="wrap">${Util.escapeHtml(Views.terceroNombre(p.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(p.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(p.valorBase)}</td><td>${p.periodicidad}</td>
+      <td class="mono">${Util.fmtDateShort(p.fechaInicio)}</td><td class="mono">${p.fechaFin?Util.fmtDateShort(p.fechaFin):'Sin fin'}</td>
+      <td class="mono">${Util.fmtDateShort(p.proximaGeneracion)}</td><td>${Views.tag(p.estado)}</td>
+      <td>${p.estado==='Activa'?`<button class="btn btn-ghost btn-sm" onclick="Causaciones.cancelarProgramacion('${p.id}')">✖ Cancelar</button>`:''}</td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="9">No hay programaciones registradas.</td></tr>';
+  },
+
+  renderVencidas(){
+    const tbody = document.getElementById('tbody-vencidas'); if(!tbody) return;
+    Causaciones.generarAutomaticas(false);
+    const list = DB.data.programaciones.filter(p=>p.estado==='Vencida');
+    tbody.innerHTML = list.map(p=>`
+      <tr><td class="wrap">${Util.escapeHtml(Views.terceroNombre(p.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(p.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(p.valorBase)}</td><td>${p.periodicidad}</td>
+      <td class="mono">${p.fechaFin?Util.fmtDateShort(p.fechaFin):'—'}</td>
+      <td class="wrap small">La vigencia del contrato paramétrico expiró (Manual §6).</td>
+      <td><button class="btn btn-primary btn-sm" onclick="Views.promptReactivar('${p.id}')">🔄 Reactivar</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="7">No hay programaciones vencidas. ✅</td></tr>';
+  },
+  promptReactivar(id){
+    UI.modal('Reactivar Programación', `
+      <div class="field"><label>Nueva Fecha Fin (opcional)</label><input type="date" id="reactivar-fecha"></div>
+      <p class="small muted">Se reactivará la programación y se recalculará su próxima fecha de generación a partir de hoy.</p>
+    `, `<button class="btn btn-ghost" onclick="UI.closeModal()">Cancelar</button>
+        <button class="btn btn-success" onclick="Causaciones.reactivarProgramacion('${id}', document.getElementById('reactivar-fecha').value); UI.closeModal();">Reactivar</button>`);
+  },
+
+  renderBandeja(){
+    const tbody = document.getElementById('tbody-bandeja'); if(!tbody) return;
+    Maestros.fillTercerosSelects();
+    const fT = document.getElementById('bd-f-tercero').value;
+    const fTi = document.getElementById('bd-f-tipo').value;
+    let list = DB.data.causaciones.filter(c=>c.estado==='Pendiente de Aprobación' && !c.esSimulacion);
+    if(fT) list = list.filter(c=>c.terceroId===fT);
+    if(fTi) list = list.filter(c=>c.tipoIngresoId===fTi);
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">#${c.id.slice(-6)}</td><td class="mono">${Util.fmtDateShort(c.fechaCreacion.slice(0,10))}</td>
+      <td>${c.origen==='Automático'?'🔁 Automático':'✍️ Manual'}</td>
+      <td class="wrap">${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(c.valorBase)}</td><td class="num mono">${Util.money(c.valorNeto)}</td>
+      <td>${Util.escapeHtml(Views.usuarioNombre(c.creadoPor))}</td>
+      <td><button class="btn btn-primary btn-sm" onclick="Views.verCausacion('${c.id}')">🔎 Ver / Decidir</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="9">No hay causaciones pendientes de aprobación. ✅</td></tr>';
+  },
+
+  verCausacion(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    const asiento = Causaciones.calcularAsiento(c.tipoIngresoId, c.valorBase);
+    const bloqueada = c.creadoPor===Auth.currentUser.username;
+    const body = `
+      <table class="asiento-table">
+        <tr><td>Tercero</td><td>${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td></tr>
+        <tr><td>Tipo de Ingreso</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td></tr>
+        <tr><td>Centro de Costo</td><td>${Views.centroCostoNombre(c.centroCostoId)}</td></tr>
+        <tr><td>Concepto</td><td class="wrap">${Util.escapeHtml(c.concepto)}</td></tr>
+        <tr><td>Creado por</td><td>${Util.escapeHtml(Views.usuarioNombre(c.creadoPor))} el ${Util.fmtDate(c.fechaCreacion)}</td></tr>
+      </table>
+      ${Causaciones.renderAsientoTable(asiento)}
+      ${bloqueada ? '<div class="err-msg" style="margin-top:10px;">Botón de Aprobación Bloqueado: usted creó este registro. Por control dual (Maker-Checker) debe ser aprobado por otro Coordinador.</div>' : ''}
+      <div class="field" style="margin-top:10px;"><label>Motivo de rechazo (si aplica)</label><textarea id="modal-motivo-rechazo" rows="2" placeholder="Ej. El valor no corresponde al soporte adjunto..."></textarea></div>
+    `;
+    const foot = `
+      <button class="btn btn-ghost" onclick="UI.closeModal()">Cerrar</button>
+      <button class="btn btn-danger" ${bloqueada?'disabled':''} onclick="Causaciones.rechazar('${id}', document.getElementById('modal-motivo-rechazo').value)">✖ Rechazar</button>
+      <button class="btn btn-success" ${bloqueada?'disabled':''} onclick="Causaciones.aprobar('${id}')">✔ Aprobar y Contabilizar</button>`;
+    UI.modal('Detalle de Causación', body, foot);
+  },
+
+  renderTodas(){
+    const tbody = document.getElementById('tbody-todas'); if(!tbody) return;
+    Maestros.fillTercerosSelects();
+    const fEstado = document.getElementById('td-f-estado').value;
+    const fTercero = document.getElementById('td-f-tercero').value;
+    const fDesde = document.getElementById('td-f-desde').value;
+    const fHasta = document.getElementById('td-f-hasta').value;
+    let list = DB.data.causaciones.filter(c=>!c.esSimulacion);
+    if(fEstado) list = list.filter(c=>c.estado===fEstado);
+    if(fTercero) list = list.filter(c=>c.terceroId===fTercero);
+    if(fDesde) list = list.filter(c=>c.fechaCreacion.slice(0,10) >= fDesde);
+    if(fHasta) list = list.filter(c=>c.fechaCreacion.slice(0,10) <= fHasta);
+    list = list.sort((a,b)=> b.fechaCreacion.localeCompare(a.fechaCreacion));
+    this.currentTodasRows = list.map(c=>({
+      Consecutivo:c.consecutivo||'', Fecha:c.fechaCreacion.slice(0,10), Tercero:Views.terceroNombre(c.terceroId),
+      TipoIngreso:Views.tipoIngresoNombre(c.tipoIngresoId), ValorBase:c.valorBase, ValorNeto:c.valorNeto,
+      Estado:c.estado, CreadoPor:c.creadoPor, AprobadoPor:c.aprobadoPor||'', Cobrado:c.cobrado?'Sí':'No'
+    }));
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">${c.consecutivo?('CP-'+c.consecutivo):'—'}</td><td class="mono">${Util.fmtDateShort(c.fechaCreacion.slice(0,10))}</td>
+      <td class="wrap">${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(c.valorBase)}</td><td class="num mono">${Util.money(c.valorNeto)}</td>
+      <td>${Views.tag(c.estado)}</td><td>${Util.escapeHtml(Views.usuarioNombre(c.creadoPor))}</td>
+      <td>${c.aprobadoPor?Util.escapeHtml(Views.usuarioNombre(c.aprobadoPor)):'—'}</td>
+      <td>${c.estado==='Contabilizado' ? (c.cobrado? '<span class="tag tag-activa">Cobrado</span>' : '<span class="tag tag-pendiente">Pendiente</span>') : '—'}</td>
+      <td>
+        ${c.estado==='Contabilizado' ? `<button class="btn btn-ghost btn-sm" onclick="UI.goto('comprobantes'); setTimeout(()=>Reportes.abrirComprobantePorId('${c.id}'),50);">🖨️ Comprobante</button>` : ''}
+        ${c.estado==='Rechazado' && c.creadoPor===Auth.currentUser.username ? `<button class="btn btn-ghost btn-sm" onclick="Causaciones.corregirRechazada('${c.id}')">✏️ Corregir</button>` : ''}
+        ${c.estado==='Rechazado' ? `<button class="btn btn-ghost btn-sm" onclick="Views.verMotivoRechazo('${c.id}')">ℹ️ Motivo</button>` : ''}
+        ${c.estado==='Contabilizado' && !c.cobrado && ['Coordinador','Administrador'].includes(Auth.currentUser.role) ? `<button class="btn btn-ghost btn-sm" onclick="Causaciones.marcarCobro('${c.id}')">💵 Marcar Cobrado</button>` : ''}
+      </td></tr>`).join('') || '<tr class="empty-row"><td colspan="11">No hay causaciones que coincidan con el filtro.</td></tr>';
+  },
+  verMotivoRechazo(id){
+    const c = DB.data.causaciones.find(x=>x.id===id); if(!c) return;
+    UI.modal('Motivo de Rechazo', `<p>${Util.escapeHtml(c.motivoRechazo||'Sin motivo registrado.')}</p><p class="small muted">Rechazado por ${Views.usuarioNombre(c.aprobadoPor)} el ${Util.fmtDate(c.fechaAprobacion)}.</p>`, `<button class="btn btn-primary" onclick="UI.closeModal()">Cerrar</button>`);
+  },
+
+  renderAuditoria(){
+    const tbody = document.getElementById('tbody-auditoria'); if(!tbody) return;
+    const selUser = document.getElementById('au-f-usuario');
+    if(selUser.options.length<=1){ selUser.innerHTML = '<option value="">Todos</option>' + DB.data.usuarios.map(u=>`<option value="${u.username}">${Util.escapeHtml(u.nombre)}</option>`).join(''); }
+    const fU = selUser.value;
+    const fD = document.getElementById('au-f-desde').value;
+    const fH = document.getElementById('au-f-hasta').value;
+    let list = DB.data.auditoria;
+    if(fU) list = list.filter(a=>a.usuario===fU);
+    if(fD) list = list.filter(a=>a.fecha.slice(0,10)>=fD);
+    if(fH) list = list.filter(a=>a.fecha.slice(0,10)<=fH);
+    this.currentAuditRows = list.map(a=>({Fecha:a.fecha, Usuario:a.usuario, Rol:a.rol, Accion:a.accion, Detalle:a.detalle}));
+    tbody.innerHTML = list.slice(0,500).map(a=>`<tr><td class="mono">${Util.fmtDate(a.fecha)}</td><td>${Util.escapeHtml(Views.usuarioNombre(a.usuario))}</td><td>${a.rol}</td><td>${Util.escapeHtml(a.accion)}</td><td class="wrap">${Util.escapeHtml(a.detalle)}</td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="5">Sin registros de auditoría para el filtro seleccionado.</td></tr>';
+  },
+
+  renderAyuda(){
+    const faqs = [
+      ['Error de "Sumas no Iguales"', 'Aparece al intentar guardar una causación.', 'Verifique que las tasas de retención configuradas sumen correctamente al valor total del ingreso contra la cuenta por cobrar. Edite las bases en Configuración > Tasas si es necesario.'],
+      ['Tercero no aparece en la lista', 'El usuario intenta hacer una causación pero el banco/cliente no figura.', 'Solicite al Analista que cree el tercero en Maestros > Terceros, asegurándose de marcar el estado como "Activo".'],
+      ['Botón de Aprobación Bloqueado', 'El registro está en pantalla pero no se puede aprobar.', 'Está ingresando con el mismo usuario que creó el documento. Por política de control dual, debe ser aprobado por otro usuario con perfil Coordinador.'],
+      ['Causación recurrente no generada', 'Llegó fin de mes y el registro automático no apareció.', 'Revise la pestaña "Programaciones Vencidas". Es probable que la vigencia del contrato paramétrico haya expirado.']
+    ];
+    document.getElementById('ayuda-faq').innerHTML = faqs.map(f=>`
+      <div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--gray-100);">
+        <b>${f[0]}</b><br><span class="small muted">${f[1]}</span><br><span class="small">✔️ Solución: ${f[2]}</span>
+      </div>`).join('');
+  },
+
+  renderTrazabilidad(){
+    const tbody = document.getElementById('tbody-trazabilidad'); if(!tbody) return;
+    const rows = [
+      ['RF-01','Funcional — Seguridad','Autenticación de usuarios y control de acceso basado en roles (RBAC).','Login con usuario/contraseña + MFA simulado; menú y acciones filtrados por rol (Administrador, Analista Contable, Coordinador).','Login / Topbar'],
+      ['RF-02','Funcional — Maestros','Registro de terceros (bancos/clientes) con NIT y estado.','Módulo Maestros &gt; Terceros con validación y cálculo automático del dígito de verificación (DV) del NIT.','Terceros'],
+      ['RF-03','Funcional — Configuración','Parametrización del Plan Único de Cuentas (PUC).','Módulo Configuración &gt; Plan de Cuentas, cuentas de naturaleza Débito/Crédito.','Plan de Cuentas'],
+      ['RF-04','Funcional — Configuración','Configuración de tasas de retención/impuestos.','Módulo Tasas e Impuestos, referenciadas por cada Tipo de Ingreso.','Tasas e Impuestos'],
+      ['RF-05','Funcional — Causación','Registro de causación manual con autocompletado de cuentas paramétricas.','Formulario Nueva Causación Manual: al elegir Tipo de Ingreso se autocompletan cuentas y tasa; cálculo automático de retención y valor neto.','Nueva Causación Manual'],
+      ['RF-06','Funcional — Causación','Programación de causaciones automáticas/recurrentes (mensual, trimestral, semestral).','Módulo Programar Recurrencia + motor de generación automática (Causaciones.generarAutomaticas).','Programar Recurrencia'],
+      ['RF-07','Funcional — Aprobación','Flujo de aprobación de doble control (Maker-Checker).','Bandeja de Aprobación: solo rol Coordinador aprueba/rechaza; bloqueo si el aprobador es el mismo creador.','Bandeja de Aprobación'],
+      ['RF-08','Funcional — Alertas','Gestión de programaciones vencidas.','Vista Programaciones Vencidas con opción de reactivar, según Fecha Fin del contrato paramétrico.','Programaciones Vencidas'],
+      ['RF-09','Funcional — Reportes','Libro auxiliar exportable a Excel/CSV.','Reporte Libro Auxiliar con filtros por tercero, tipo y fecha, y exportación CSV.','Libro Auxiliar'],
+      ['RF-10','Funcional — Reportes','Reimpresión de comprobantes contables en PDF con firmas digitales.','Vista Comprobantes Contables con formato imprimible (Ctrl/Cmd+P → Guardar como PDF) y firmas simuladas del preparador/aprobador.','Comprobantes Contables'],
+      ['RF-11','Funcional — Reportes','Estado de cuenta por tercero con saldo pendiente de cobro.','Reporte Estado de Cuenta por Tercero con KPIs de causado, cobrado y saldo pendiente.','Estado de Cuenta'],
+      ['RF-12','Funcional — Auditoría','Registro y auditoría de todas las transacciones.','Bitácora de auditoría (usuario, acción, fecha, detalle) para cada operación relevante del sistema.','Auditoría'],
+      ['RNF-01','No Funcional — Seguridad','Cifrado de datos en reposo y en tránsito (TLS 1.2+).','Insignia de seguridad informativa; contraseñas resguardadas con hash SHA-256; documentación explícita del objetivo de arquitectura productiva.','Insignia 🔒 en barra superior'],
+      ['RNF-02','No Funcional — Seguridad','Autenticación SSO / MFA.','Segundo factor simulado (código de 6 dígitos) tras validar credenciales; punto de integración documentado para SSO corporativo.','Login'],
+      ['RNF-03','No Funcional — Seguridad','RBAC estricto.','Cada vista y botón de acción valida el rol activo antes de ejecutar la operación (frontend) — en producción se replica en backend.','Todas las vistas'],
+      ['RNF-04','No Funcional — Rendimiento','Procesar y contabilizar hasta 10.000 causaciones automáticas de cierre en &lt; 5 min.','Herramienta de Procesamiento por Lote: genera y contabiliza masivamente, mide el tiempo real con <code>performance.now()</code> y lo compara contra el umbral de 300.000 ms.','Procesamiento por Lote'],
+      ['RNF-05','No Funcional — Rendimiento','Latencia de formulario ≤ 2 segundos.','Cada guardado mide y muestra el tiempo de respuesta real del formulario.','Nueva Causación Manual'],
+      ['RNF-06','No Funcional — Disponibilidad','Uptime 99.9% con ventanas de mantenimiento en la madrugada.','Panel de Disponibilidad y Mantenimiento configurable; banner de mantenimiento que restringe la escritura cuando está activo.','Disponibilidad y Mantenimiento'],
+      ['RNF-07','No Funcional — Cumplimiento','NIIF/IFRS (reconocimiento por causación) y normativa DIAN.','Modelo contable de causación (reconocimiento cuando se genera el derecho de cobro, no cuando se recibe el efectivo) y retención en la fuente como anticipo de impuestos.','Nueva Causación Manual / Ayuda'],
+      ['RNF-08','No Funcional — Usabilidad','Diseño responsivo (Desktop/Tablet) con cuadrículas de alta densidad.','Layout adaptable con sidebar colapsable, tablas densas de scroll horizontal y tipografía tabular para cifras.','Todas las vistas'],
+      ['RNF-09','No Funcional — Usabilidad','Prevención de errores: validación Débitos = Créditos antes de guardar.','El botón "Guardar" permanece deshabilitado y se muestra el desglose Debe/Haber hasta que el asiento cuadra exactamente.','Nueva Causación Manual / Recurrencia']
+    ];
+    tbody.innerHTML = rows.map(r=>`<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td class="wrap">${r[2]}</td><td class="wrap">${r[3]}</td><td>${r[4]}</td></tr>`).join('');
+  }
+};
+/* ---------------------------------------------------------------
+   REPORTES — Libro Auxiliar, Comprobantes, Estado de Cuenta, export
+--------------------------------------------------------------- */
+const Reportes = {
+  currentLibroRows: [],
+
+  exportCSV(rows, baseName){
+    if(!rows || rows.length===0){ Toast.show('No hay datos para exportar con los filtros actuales.','warn'); return; }
+    const headers = Object.keys(rows[0]);
+    const lines = [headers.join(';')];
+    rows.forEach(r=> lines.push(headers.map(h=>Util.csvEscape(r[h])).join(';')));
+    const csv = '﻿' + lines.join('\r\n');
+    Util.downloadFile(`${baseName}_${Util.todayISO()}.csv`, csv, 'text/csv;charset=utf-8;');
+    Audit.log(Auth.currentUser, 'Exportar reporte (CSV/Excel)', `${baseName} — ${rows.length} filas`);
+    Toast.show('Archivo CSV exportado (compatible con Excel).','success');
+  },
+
+  initLibroAuxiliar(){
+    this.renderLibroAuxiliar();
+  },
+  renderLibroAuxiliar(){
+    const tbody = document.getElementById('tbody-libro'); if(!tbody) return;
+    const fT = document.getElementById('la-f-tercero').value;
+    const fTi = document.getElementById('la-f-tipo').value;
+    const fD = document.getElementById('la-f-desde').value;
+    const fH = document.getElementById('la-f-hasta').value;
+    const incSim = document.getElementById('la-f-simulados').checked;
+    let list = DB.data.causaciones.filter(c=>c.estado==='Contabilizado' && (incSim || !c.esSimulacion));
+    if(fT) list = list.filter(c=>c.terceroId===fT);
+    if(fTi) list = list.filter(c=>c.tipoIngresoId===fTi);
+    if(fD) list = list.filter(c=>c.fechaAprobacion && c.fechaAprobacion.slice(0,10) >= fD);
+    if(fH) list = list.filter(c=>c.fechaAprobacion && c.fechaAprobacion.slice(0,10) <= fH);
+    list = list.sort((a,b)=> (a.fechaAprobacion||'').localeCompare(b.fechaAprobacion||''));
+    this.currentLibroRows = list.map(c=>({
+      Consecutivo:'CP-'+c.consecutivo, FechaContabilizacion:c.fechaAprobacion?c.fechaAprobacion.slice(0,10):'',
+      Tercero:Views.terceroNombre(c.terceroId), Cuenta:c.cuentaIngreso, TipoIngreso:Views.tipoIngresoNombre(c.tipoIngresoId),
+      Debito:0, Credito:c.valorBase, CentroCosto:Views.centroCostoNombre(c.centroCostoId)
+    }));
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">CP-${c.consecutivo}</td><td class="mono">${Util.fmtDateShort(c.fechaAprobacion.slice(0,10))}</td>
+      <td class="wrap">${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td><td class="mono">${c.cuentaIngreso}</td>
+      <td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td>
+      <td class="num mono">—</td><td class="num mono">${Util.money(c.valorBase)}</td>
+      <td>${Views.centroCostoNombre(c.centroCostoId)}</td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="8">No hay movimientos contabilizados para el filtro seleccionado.</td></tr>';
+    const totalCredito = list.reduce((s,c)=>s+c.valorBase,0);
+    document.getElementById('tfoot-libro').innerHTML = list.length ? `<tr class="asiento-total-row"><td colspan="5">Totales (${list.length} movimientos)</td><td class="num mono">—</td><td class="num mono">${Util.money(totalCredito)}</td><td></td></tr>` : '';
+  },
+  imprimirLibro(){
+    if(this.currentLibroRows.length===0){ Toast.show('No hay datos para imprimir.','warn'); return; }
+    window.print();
+  },
+
+  initComprobantes(){
+    const sel = document.getElementById('cp-select');
+    const list = DB.data.causaciones.filter(c=>c.estado==='Contabilizado' && !c.esSimulacion).sort((a,b)=>b.consecutivo-a.consecutivo);
+    sel.innerHTML = '<option value="">Seleccione un comprobante...</option>' + list.map(c=>`<option value="${c.id}">CP-${c.consecutivo} — ${Views.terceroNombre(c.terceroId)} — ${Util.money(c.valorNeto)}</option>`).join('');
+    document.getElementById('cp-contenedor').innerHTML = '';
+  },
+  mostrarComprobante(){
+    const id = document.getElementById('cp-select').value;
+    if(!id){ Toast.show('Seleccione un comprobante para visualizar.','warn'); return; }
+    this.abrirComprobantePorId(id);
+  },
+  abrirComprobantePorId(id){
+    const c = DB.data.causaciones.find(x=>x.id===id);
+    if(!c || c.estado!=='Contabilizado'){ Toast.show('El comprobante no está disponible.','error'); return; }
+    const sel = document.getElementById('cp-select'); if(sel) sel.value = id;
+    const asiento = Causaciones.calcularAsiento(c.tipoIngresoId, c.valorBase);
+    const tercero = DB.data.terceros.find(t=>t.id===c.terceroId);
+    const prepNombre = Views.usuarioNombre(c.creadoPor);
+    const aprobNombre = Views.usuarioNombre(c.aprobadoPor);
+    const hashPrep = btoa(c.id+c.creadoPor).replace(/[^A-Za-z0-9]/g,'').slice(0,20).toUpperCase();
+    const hashAprob = btoa(c.id+c.aprobadoPor+c.fechaAprobacion).replace(/[^A-Za-z0-9]/g,'').slice(0,20).toUpperCase();
+    document.getElementById('cp-contenedor').innerHTML = `
+      <div class="card print-target" id="printable" style="max-width:760px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--navy-800);padding-bottom:12px;margin-bottom:12px;">
+          <div><h2 style="margin-bottom:2px;">SINO</h2><span class="small muted">Sistema de Causación de Ingresos No Operacionales</span></div>
+          <div style="text-align:right;"><b style="font-size:16px;">Comprobante de Contabilización</b><br><span class="mono">N° CP-${c.consecutivo}</span></div>
+        </div>
+        <div class="grid grid-2">
+          <div><span class="small muted">Tercero</span><br><b>${Util.escapeHtml(tercero.razonSocial)}</b><br><span class="small">NIT ${tercero.nit}-${tercero.dv}</span></div>
+          <div><span class="small muted">Fecha de Contabilización</span><br><b>${Util.fmtDate(c.fechaAprobacion)}</b></div>
+          <div><span class="small muted">Tipo de Ingreso</span><br>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</div>
+          <div><span class="small muted">Centro de Costo</span><br>${Views.centroCostoNombre(c.centroCostoId)}</div>
+        </div>
+        <div style="margin-top:8px;"><span class="small muted">Concepto</span><br>${Util.escapeHtml(c.concepto)}</div>
+        ${Causaciones.renderAsientoTable(asiento)}
+        <div class="grid grid-2" style="margin-top:26px;">
+          <div style="border-top:1px solid var(--gray-300);padding-top:8px;">
+            <b>Preparado por:</b> ${Util.escapeHtml(prepNombre)}<br>
+            <span class="small muted">${Util.fmtDate(c.fechaCreacion)}</span><br>
+            <span class="small mono">Firma digital (simulada): ${hashPrep}</span>
+          </div>
+          <div style="border-top:1px solid var(--gray-300);padding-top:8px;">
+            <b>Aprobado por:</b> ${Util.escapeHtml(aprobNombre)}<br>
+            <span class="small muted">${Util.fmtDate(c.fechaAprobacion)}</span><br>
+            <span class="small mono">Firma digital (simulada): ${hashAprob}</span>
+          </div>
+        </div>
+        <p class="small muted" style="margin-top:16px;">Documento generado por SINO. Las firmas digitales mostradas son simuladas con fines académicos y no constituyen un mecanismo criptográfico de firma electrónica real.</p>
+      </div>
+      <div class="no-print" style="margin-top:12px;display:flex;gap:10px;">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+      </div>`;
+  },
+
+  initEstadoCuenta(){
+    document.getElementById('ec-kpis').innerHTML = '';
+    document.getElementById('tbody-estado-cuenta').innerHTML = '<tr class="empty-row"><td colspan="7">Seleccione un tercero para ver su estado de cuenta.</td></tr>';
+  },
+  renderEstadoCuenta(){
+    const terceroId = document.getElementById('ec-tercero').value;
+    const tbody = document.getElementById('tbody-estado-cuenta');
+    if(!terceroId){ document.getElementById('ec-kpis').innerHTML=''; tbody.innerHTML = '<tr class="empty-row"><td colspan="7">Seleccione un tercero para ver su estado de cuenta.</td></tr>'; return; }
+    const list = DB.data.causaciones.filter(c=>c.terceroId===terceroId && c.estado==='Contabilizado' && !c.esSimulacion).sort((a,b)=>b.fechaAprobacion.localeCompare(a.fechaAprobacion));
+    const totalCausado = list.reduce((s,c)=>s+c.valorNeto,0);
+    const totalCobrado = list.filter(c=>c.cobrado).reduce((s,c)=>s+c.valorNeto,0);
+    const saldo = totalCausado - totalCobrado;
+    document.getElementById('ec-kpis').innerHTML = `
+      <div class="kpi"><div class="kpi-label">Total Causado (Neto)</div><div class="kpi-value">${Util.money(totalCausado)}</div></div>
+      <div class="kpi ok"><div class="kpi-label">Total Cobrado</div><div class="kpi-value">${Util.money(totalCobrado)}</div></div>
+      <div class="kpi ${saldo>0?'warn':'ok'}"><div class="kpi-label">Saldo Pendiente de Cobro</div><div class="kpi-value">${Util.money(saldo)}</div></div>`;
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">CP-${c.consecutivo}</td><td class="mono">${Util.fmtDateShort(c.fechaAprobacion.slice(0,10))}</td>
+      <td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td><td class="num mono">${Util.money(c.valorNeto)}</td>
+      <td>${Views.tag(c.estado)}</td>
+      <td>${c.cobrado?`<span class="tag tag-activa">Cobrado ${Util.fmtDateShort(c.fechaCobro)}</span>`:'<span class="tag tag-pendiente">Pendiente</span>'}</td>
+      <td>${!c.cobrado && ['Coordinador','Administrador'].includes(Auth.currentUser.role) ? `<button class="btn btn-ghost btn-sm" onclick="Causaciones.marcarCobro('${c.id}'); Reportes.renderEstadoCuenta();">💵 Marcar Cobrado</button>` : ''}
+          <button class="btn btn-ghost btn-sm" onclick="UI.goto('comprobantes'); setTimeout(()=>Reportes.abrirComprobantePorId('${c.id}'),50);">🖨️</button></td></tr>`).join('') ||
+      '<tr class="empty-row"><td colspan="7">Este tercero no tiene causaciones contabilizadas.</td></tr>';
+  }
+};
+
+/* ---------------------------------------------------------------
+   BATCH — simulación de rendimiento de cierre de mes
+--------------------------------------------------------------- */
+const Batch = {
+  lastGenElapsed: 0,
+
+  render(){
+    const pendientesSim = DB.data.causaciones.filter(c=>c.esSimulacion && c.estado==='Pendiente de Aprobación');
+    document.getElementById('bt-btn-contabilizar').disabled = !(Auth.currentUser.role==='Coordinador' && pendientesSim.length>0);
+    this.renderTabla();
+  },
+  renderTabla(){
+    const tbody = document.getElementById('tbody-batch'); if(!tbody) return;
+    const list = DB.data.causaciones.filter(c=>c.esSimulacion).slice(0,50);
+    const total = DB.data.causaciones.filter(c=>c.esSimulacion).length;
+    tbody.innerHTML = list.map(c=>`
+      <tr><td class="mono">${c.consecutivo?('CP-'+c.consecutivo):'#'+c.id.slice(-6)}</td>
+      <td class="wrap">${Util.escapeHtml(Views.terceroNombre(c.terceroId))}</td><td>${Util.escapeHtml(Views.tipoIngresoNombre(c.tipoIngresoId))}</td>
+      <td class="num mono">${Util.money(c.valorBase)}</td><td class="num mono">${Util.money(c.valorNeto)}</td>
+      <td>${Views.tag(c.estado)}</td></tr>`).join('') || '<tr class="empty-row"><td colspan="6">Aún no se ha ejecutado ninguna simulación.</td></tr>';
+    if(total>50){
+      tbody.innerHTML += `<tr><td colspan="6" class="small muted" style="text-align:center;">… y ${total-50} registro(s) más. Use "Exportar Lote CSV" para ver el detalle completo.</td></tr>`;
+    }
+  },
+
+  async generar(){
+    if(!['Administrador','Coordinador'].includes(Auth.currentUser.role)){ Toast.show('Solo Administrador o Coordinador pueden ejecutar la simulación de cierre.','error'); return; }
+    if(Config.isWriteBlocked()){ Toast.show('El sistema está en ventana de mantenimiento programada.','warn'); return; }
+    let n = parseInt(document.getElementById('bt-cantidad').value, 10) || 10000;
+    n = Math.max(10, Math.min(20000, n));
+    const activosTerceros = DB.data.terceros.filter(t=>t.estado==='Activo');
+    const tipos = DB.data.tiposIngreso;
+    const ccs = DB.data.centrosCosto;
+    if(activosTerceros.length===0 || tipos.length===0 || ccs.length===0){
+      Toast.show('Se requieren terceros activos, tipos de ingreso y centros de costo configurados.','error'); return;
+    }
+    document.getElementById('bt-resultado').innerHTML = '';
+    const progress = document.getElementById('bt-progress');
+    progress.style.width = '0%';
+    const t0 = performance.now();
+    const chunkSize = 500;
+    const nuevas = [];
+    const processChunk = (start) => new Promise(resolve => setTimeout(() => {
+      const end = Math.min(start + chunkSize, n);
+      for(let i=start;i<end;i++){
+        const tercero = activosTerceros[i % activosTerceros.length];
+        const tipo = tipos[i % tipos.length];
+        const cc = ccs[i % ccs.length];
+        const valorBase = round2(500000 + (i % 53) * 123500);
+        const asiento = Causaciones.calcularAsiento(tipo.id, valorBase);
+        if(asiento && asiento.balanced){
+          nuevas.push({
+            id: Util.uid('cau'), consecutivo:null, origen:'Automático (Lote)', estado:'Pendiente de Aprobación',
+            terceroId:tercero.id, tipoIngresoId:tipo.id, valorBase,
+            valorRetencion:asiento.valorRetencion, valorNeto:asiento.valorNeto,
+            cuentaIngreso:asiento.cuentaIngreso, cuentaCxC:asiento.cuentaCxC, cuentaRetencion:asiento.cuentaRetencion,
+            centroCostoId:cc.id, concepto:`Cierre de mes simulado — registro ${i+1} de ${n}`,
+            fechaCreacion:new Date().toISOString(), creadoPor:'Sistema (Automático)',
+            aprobadoPor:null, fechaAprobacion:null, motivoRechazo:null, cobrado:false, fechaCobro:null, esSimulacion:true
+          });
+        }
+      }
+      progress.style.width = Math.round((end/n)*100) + '%';
+      resolve();
+    }, 0));
+    for(let start=0; start<n; start+=chunkSize){ await processChunk(start); }
+    DB.data.causaciones.push(...nuevas);
+    DB.save();
+    const elapsed = performance.now() - t0;
+    this.lastGenElapsed = elapsed;
+    const pass = elapsed <= 300000;
+    document.getElementById('bt-resultado').innerHTML = `
+      <div class="card" style="background:${pass?'var(--teal-100)':'var(--red-100)'};border:none;">
+        <b>${pass?'✅ Cumple el requisito de rendimiento':'⚠️ No cumple el requisito de rendimiento'}</b><br>
+        Se generaron <b>${nuevas.length.toLocaleString('es-CO')}</b> causaciones automáticas de cierre en <b>${elapsed.toFixed(0)} ms</b> (${(elapsed/1000).toFixed(2)} s).<br>
+        Umbral requerido: ≤ 300.000 ms (5 min) para 10.000 registros · Promedio: ${(elapsed/Math.max(nuevas.length,1)).toFixed(3)} ms/registro.
+        <p class="small muted" style="margin-top:6px;">Nota: mide el motor de generación y validación de asientos ejecutándose en JavaScript del navegador (frontend). En producción este proceso correría en el servidor con acceso optimizado a base de datos.</p>
+      </div>`;
+    sessionStorage.setItem('sino_last_batch', `${nuevas.length} generadas en ${elapsed.toFixed(0)} ms — ${new Date().toLocaleTimeString('es-CO')}`);
+    Audit.log(Auth.currentUser, 'Simulación de lote — generación', `${nuevas.length} causaciones en ${elapsed.toFixed(0)} ms`);
+    document.getElementById('bt-btn-contabilizar').disabled = (Auth.currentUser.role!=='Coordinador');
+    Batch.renderTabla();
+  },
+
+  contabilizarLote(){
+    if(Auth.currentUser.role!=='Coordinador'){
+      Toast.show('Restricción de rol: el Administrador no puede aprobar/contabilizar transacciones financieras directamente. Ingrese como Coordinador.','error');
+      return;
+    }
+    const pendientes = DB.data.causaciones.filter(c=>c.esSimulacion && c.estado==='Pendiente de Aprobación');
+    if(pendientes.length===0){ Toast.show('No hay causaciones simuladas pendientes por contabilizar.','warn'); return; }
+    const t0 = performance.now();
+    pendientes.forEach(c=>{
+      c.estado = 'Contabilizado';
+      c.aprobadoPor = Auth.currentUser.username;
+      c.fechaAprobacion = new Date().toISOString();
+      c.consecutivo = DB.data.config.consecutivo++;
+    });
+    DB.save();
+    const elapsed = performance.now() - t0;
+    const totalPipeline = (this.lastGenElapsed||0) + elapsed;
+    const pass = totalPipeline <= 300000;
+    document.getElementById('bt-resultado').innerHTML += `
+      <div class="card" style="background:${pass?'var(--teal-100)':'var(--red-100)'};border:none;margin-top:10px;">
+        <b>${pass?'✅ Ciclo completo (generación + contabilización) dentro del SLA':'⚠️ Ciclo completo fuera del SLA'}</b><br>
+        Se contabilizaron <b>${pendientes.length.toLocaleString('es-CO')}</b> causaciones en <b>${elapsed.toFixed(0)} ms</b>.<br>
+        Tiempo total del ciclo (generar + aprobar y contabilizar): <b>${totalPipeline.toFixed(0)} ms</b> (${(totalPipeline/1000).toFixed(2)} s) de un máximo permitido de 300.000 ms.
+      </div>`;
+    sessionStorage.setItem('sino_last_batch', `${pendientes.length} contabilizadas en ${elapsed.toFixed(0)} ms (ciclo total ${totalPipeline.toFixed(0)} ms) — ${new Date().toLocaleTimeString('es-CO')}`);
+    Audit.log(Auth.currentUser, 'Simulación de lote — contabilización', `${pendientes.length} causaciones en ${elapsed.toFixed(0)} ms`);
+    Batch.render();
+    Views.renderDashboard();
+  },
+
+  exportar(){
+    const rows = DB.data.causaciones.filter(c=>c.esSimulacion).map(c=>({
+      Consecutivo:c.consecutivo||'', Tercero:Views.terceroNombre(c.terceroId), TipoIngreso:Views.tipoIngresoNombre(c.tipoIngresoId),
+      ValorBase:c.valorBase, ValorNeto:c.valorNeto, Estado:c.estado
+    }));
+    Reportes.exportCSV(rows, 'simulacion_lote');
+  },
+  limpiar(){
+    const before = DB.data.causaciones.length;
+    DB.data.causaciones = DB.data.causaciones.filter(c=>!c.esSimulacion);
+    DB.save();
+    const removed = before - DB.data.causaciones.length;
+    Audit.log(Auth.currentUser, 'Limpiar datos de simulación', `${removed} registros eliminados`);
+    Toast.show(`${removed} registro(s) de simulación eliminados.`,'success');
+    document.getElementById('bt-resultado').innerHTML = '';
+    document.getElementById('bt-progress').style.width='0%';
+    Batch.render();
+    Views.renderDashboard();
+  }
+};
+
+/* ---------------------------------------------------------------
+   INIT
+--------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', async () => {
+  DB.load();
+  if(!DB.data){
+    await Seed.run();
+    DB.save();
+  }
+  const restored = Auth.tryRestoreSession();
+  if(!restored){
+    document.getElementById('view-login').classList.remove('hidden');
+  }
+  ['login-username','login-password'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown', e=>{ if(e.key==='Enter') Auth.submitCredentials(); });
+  });
+  document.getElementById('login-mfa-input').addEventListener('keydown', e=>{ if(e.key==='Enter') Auth.submitMfa(); });
+});
+</script>
+</body>
+</html>
