@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/SINO_Sistema_Causacion_Ingresos_No_Operacionales.html"
+    }
+  ]
+}
