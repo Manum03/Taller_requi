@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/SINO_Sistema_Causacion_Ingresos_No_Operacionales.html"
+      "destination": "/index.html"
     }
   ]
 }
