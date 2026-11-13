@@ -1,0 +1,9 @@
+Necesidad,Requisito,Tipo,Version,Descripcion,Historia,Caso_Uso,Diseño,Codigo,Prueba,Estado
+N-01,RF-02,Funcional,1.2,"Registro de terceros (bancos/clientes) con NIT, DV calculado y estado.",US-02,CU-02,DS-02,"index.html › Maestros.guardarTercero(), validarCampoTercero(), Util.calcDV()",TC-01,Cubierto
+N-02,RF-05,Funcional,1.2,"Registro de causación manual con autocompletado de cuentas, periodo Desde/Hasta y cálculo de retención.",US-05,CU-05,DS-05,"index.html › Causaciones.guardarManual(), calcularAsiento(), recalcular()",TC-02,Cubierto
+N-03,RF-07,Funcional,1.0,Flujo de aprobación con doble control (Maker-Checker).,US-07,CU-07,DS-07,"index.html › Causaciones.aprobar(), rechazar(); Views.renderBandeja()",TC-03,Cubierto
+N-04,RF-09,Funcional,1.0,"Libro auxiliar con filtros por tercero, tipo y fecha, exportable a CSV/Excel.",US-09,CU-09,DS-09,"index.html › Reportes.renderLibroAuxiliar(), exportCSV()",,Incompleto
+N-05,RF-11,Funcional,1.0,"Estado de cuenta por tercero con causado, cobrado y saldo pendiente.",US-11,,DS-11,index.html › Reportes.renderEstadoCuenta(),,Incompleto
+N-03,RNF-03,No funcional,1.1,RBAC estricto: cada vista y botón valida el rol activo antes de ejecutar.,,,DS-03,index.html › UI.applyRoleVisibility(); Maestros.puedeGestionarTerceros(),TC-04,Incompleto
+N-06,RNF-04,No funcional,1.0,Procesar y contabilizar 10.000 causaciones de cierre en menos de 5 minutos.,,,DS-04,"index.html › Batch.generar(), contabilizarLote()",TC-05,Incompleto
+N-02,RNF-09,No funcional,1.0,Prevención de errores: 'Guardar' deshabilitado hasta que Débitos = Créditos.,US-05,CU-05,DS-05,"index.html › Causaciones.calcularAsiento(), recalcular()",TC-06,Cubierto
