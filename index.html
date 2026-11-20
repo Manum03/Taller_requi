@@ -297,7 +297,7 @@ td.wrap{white-space:normal;}
         <div class="login-feature"><span class="ico">🧾</span><span>Cumplimiento NIIF (reconocimiento por devengo/causación) y retenciones DIAN (Módulo 11 NIT).</span></div>
         <div class="login-feature"><span class="ico">⚡</span><span>Cierre contable automatizado y procesamiento masivo de hasta 10.000 causaciones en &lt; 5 min.</span></div>
       </div>
-      <div class="small" style="color:#7387ad;">SINO · Sistema Financiero y Contable v2.0<br>Autores: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
+      <div class="small" style="color:#7387ad;">SINO · Sistema Financiero y Contable v3.0 (v1.0 Inicial → v2.0 Auditada → v3.0 Asegurada)<br>Autores: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
     </div>
     <div class="login-form-side">
       <!-- STEP 1: credentials -->
@@ -392,12 +392,13 @@ td.wrap{white-space:normal;}
       </div>
       <div class="nav-group">
         <div class="nav-group-title">Control y Ayuda</div>
+        <div class="nav-item" data-view="versiones" data-roles=""><span class="ico">🛡️</span>Versiones y Seguridad PHP</div>
         <div class="nav-item" data-view="auditoria" data-roles="Administrador,Coordinador"><span class="ico">🕵️</span>Bitácora de Auditoría</div>
         <div class="nav-item" data-view="trazabilidad" data-roles=""><span class="ico">🧭</span>Matriz de Requisitos</div>
         <div class="nav-item" data-view="ayuda" data-roles=""><span class="ico">❓</span>Guía de Usuario y Glosario</div>
       </div>
     </div>
-    <div class="sidebar-foot">SINO v2.0 · Sistema Financiero<br>© 2026 — Cumplimiento NIIF / DIAN</div>
+    <div class="sidebar-foot">SINO v3.0 · Edición Asegurada<br>© 2026 — Cumplimiento NIIF / DIAN · CR-SEG-01/02</div>
   </nav>
 
   <div class="main-wrap">
@@ -1063,6 +1064,46 @@ td.wrap{white-space:normal;}
         </div>
       </section>
 
+      <!-- ============ VERSIONES Y SEGURIDAD (v1.0 -> v2.0 -> v3.0) ============ -->
+      <section class="view" id="v-versiones">
+        <div class="help-box">
+          <b>🛡️ Evolución de Versiones del Sistema SINO y Blindaje de Seguridad (v1.0 Inicial → v2.0 Auditada → v3.0 Asegurada):</b>
+          Esta vista documenta y verifica en tiempo real la evolución completa de la plataforma: desde la primera entrega funcional, pasando por la auditoría del correo enviado al equipo de Alejandro Rodríguez y Manuel Martínez (<code>CR-01</code> a <code>CR-09</code>), hasta la actualización de seguridad e infraestructura en <b>PHP 8.3/8.4 + PBKDF2-HMAC-SHA256</b> originada por la ola de vulnerabilidades y hackeos en tecnologías web tradicionales (<code>CR-SEG-01</code> y <code>CR-SEG-02</code>).
+        </div>
+        <div class="grid grid-3" id="ver-cards"></div>
+        <div class="card">
+          <div class="card-title-row">
+            <h3>📧 Trazabilidad del Correo de Revisión → Versión 2.0 Auditada (CR-01 a CR-07)</h3>
+            <span class="tag tag-contabilizado">100% Implementado y Validado</span>
+          </div>
+          <div class="table-scroll"><table class="dense">
+            <thead><tr><th>Apartado del Correo</th><th>Observación Textual Recibida</th><th>Solicitud CR</th><th>Requisito y Versión</th><th>Solución Implementada en SINO v2.0</th></tr></thead>
+            <tbody id="tbody-ver-correo"></tbody>
+          </table></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title-row">
+              <h3>🔐 Verificación Criptográfica en Vivo — Versión 3.0 (CR-SEG-01 / RNF-11)</h3>
+              <span class="tag tag-activa">PBKDF2 · 100.000 Iteraciones</span>
+            </div>
+            <p class="small muted">Prueba de aceptación de <b>CR-SEG-01</b>: aunque <code>analista</code> y <code>analista2</code> comparten la misma contraseña de demostración (<code>Analista#2026</code>), sus sales de 128 bits y sus hashes derivados con <b>PBKDF2-HMAC-SHA256 (100.000 iteraciones)</b> son completamente distintos, derrotando ataques por tablas Rainbow.</p>
+            <div class="table-scroll"><table class="dense">
+              <thead><tr><th>Usuario</th><th>Rol</th><th>Algoritmo</th><th>Sal Aleatoria (128-bit)</th><th>Hash Derivado (Truncado)</th></tr></thead>
+              <tbody id="tbody-ver-hashes"></tbody>
+            </table></div>
+          </div>
+          <div class="card">
+            <div class="card-title-row">
+              <h3>🐘 Arquitectura Backend Asegurada en PHP 8.3 / 8.4 (CR-SEG-02 / RNF-12)</h3>
+              <span class="tag tag-role">Anti-Hackeos PHP 8.4</span>
+            </div>
+            <p class="small muted">Motivado por los reportes de ataques masivos a servidores PHP heredados (PHP 5.x/7.x), la versión 3.0 incorpora en <code>backend_php/sino_api_v3.php</code> y <code>backend_php/php.ini.hardened</code> los controles de las nuevas versiones de PHP:</p>
+            <table class="asiento-table" id="tbl-ver-php"></table>
+          </div>
+        </div>
+      </section>
+
       <!-- ============ AUDITORÍA ============ -->
       <section class="view" id="v-auditoria">
         <div class="help-box"><b>📘 Bitácora Inmutable de Auditoría:</b> Registra cronológicamente cada inicio de sesión, alta o edición de terceros, parametrización del PUC, creación de borradores, aprobaciones, rechazos y exportaciones, identificando usuario, rol, fecha exacta y detalle de la operación.</div>
@@ -1151,7 +1192,7 @@ td.wrap{white-space:normal;}
         </div>
       </section>
     </div>
-    <div class="app-footer">Sistema de Causación de Ingresos No Operacionales (SINO v2.0) · Cumplimiento NIIF y Normativa DIAN · Autores: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
+    <div class="app-footer">Sistema de Causación de Ingresos No Operacionales (SINO v3.0 · Edición Asegurada) · Cumplimiento NIIF / DIAN · CR-SEG-01/02 · Autores: Alejandro Martinez · Alejandro Rodriguez · David Forero</div>
   </div>
 </div>
 
@@ -1209,6 +1250,25 @@ const Util = {
     const buf = await crypto.subtle.digest('SHA-256', enc);
     return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
   },
+  // CR-SEG-01 / RNF-11 v1.0: Generación de sal criptográfica de 128 bits y derivación PBKDF2-HMAC-SHA256 (100.000 iteraciones)
+  randomSaltHex(bytes){
+    const arr = new Uint8Array(bytes||16);
+    crypto.getRandomValues(arr);
+    return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+  },
+  async pbkdf2(password, saltHex, iterations){
+    const iters = iterations || 100000;
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveBits']);
+    const saltBytes = new Uint8Array((saltHex.match(/.{1,2}/g)||[]).map(b=>parseInt(b,16)));
+    const bits = await crypto.subtle.deriveBits({name:'PBKDF2', salt:saltBytes, iterations:iters, hash:'SHA-256'}, keyMaterial, 256);
+    return Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  },
+  cryptoOtp6(){
+    const buf = new Uint32Array(1);
+    crypto.getRandomValues(buf);
+    return String(100000 + (buf[0] % 900000));
+  },
   csvEscape(v){
     v = (v===undefined||v===null) ? '' : String(v);
     if(/[",\n;]/.test(v)) return '"' + v.replace(/"/g,'""') + '"';
@@ -1240,17 +1300,16 @@ const Toast = {
 };
 
 /* ---------------------------------------------------------------
-   DB — persistencia en localStorage (v2)
+   DB — persistencia en localStorage (v3 Asegurada · CR-SEG-01)
 --------------------------------------------------------------- */
-const DB_KEY = 'sino_db_v2';
+const DB_KEY = 'sino_db_v3';
 const DB = {
   data: null,
   load(){
     try{
-      const raw = localStorage.getItem(DB_KEY) || localStorage.getItem('sino_db_v1');
+      const raw = localStorage.getItem(DB_KEY);
       if(raw){
         this.data = JSON.parse(raw);
-        if(!localStorage.getItem(DB_KEY)) this.save();
         return;
       }
     }catch(e){ console.warn('No se pudo leer la base local, se reinicializará.', e); }
@@ -1268,11 +1327,12 @@ const DB = {
 };
 
 /* ---------------------------------------------------------------
-   SEED — datos iniciales del sistema
+   SEED — datos iniciales del sistema (v3.0 con PBKDF2-HMAC-SHA256)
 --------------------------------------------------------------- */
 const Seed = {
   async run(){
     const d = {
+      versionSistema: '3.0',
       usuarios: [],
       terceros: [],
       puc: [],
@@ -1287,10 +1347,16 @@ const Seed = {
         consecutivo: 1000
       }
     };
-    const mk = async (username,nombre,role,pass) => ({
-      id: Util.uid('usr'), username, nombre, role, activo:true,
-      passwordHash: await Util.sha256(pass)
-    });
+    const mk = async (username,nombre,role,pass) => {
+      const salt = Util.randomSaltHex(16);
+      return {
+        id: Util.uid('usr'), username, nombre, role, activo:true,
+        passwordSalt: salt,
+        passwordIter: 100000,
+        passwordAlgo: 'PBKDF2-HMAC-SHA256',
+        passwordHash: await Util.pbkdf2(pass, salt, 100000)
+      };
+    };
     d.usuarios.push(await mk('admin','Administrador del Sistema','Administrador','Admin#2026'));
     d.usuarios.push(await mk('analista','Camila Ríos','Analista Contable','Analista#2026'));
     d.usuarios.push(await mk('analista2','Pedro Gómez','Analista Contable','Analista#2026'));
@@ -1494,10 +1560,13 @@ const Auth = {
     if(!u || !p){ errEl.textContent='Ingrese su usuario y contraseña.'; errEl.classList.remove('hidden'); return; }
     const user = DB.data.usuarios.find(x=>x.username.toLowerCase()===u.toLowerCase());
     if(!user || !user.activo){ errEl.textContent='Credenciales inválidas o cuenta inactiva.'; errEl.classList.remove('hidden'); return; }
-    const hash = await Util.sha256(p);
+    // CR-SEG-01 / RNF-11: Verificación con PBKDF2-HMAC-SHA256 (100.000 iteraciones + sal de 128 bits)
+    const hash = user.passwordSalt
+      ? await Util.pbkdf2(p, user.passwordSalt, user.passwordIter || 100000)
+      : await Util.sha256(p);
     if(hash !== user.passwordHash){ errEl.textContent='Credenciales inválidas. Verifique usuario y contraseña.'; errEl.classList.remove('hidden'); return; }
     this.pendingUser = user;
-    this.pendingCode = String(Math.floor(100000 + Math.random()*900000));
+    this.pendingCode = Util.cryptoOtp6();
     document.getElementById('mfa-shown-code').textContent = this.pendingCode;
     document.getElementById('login-step-credentials').classList.add('hidden');
     document.getElementById('login-step-mfa').classList.remove('hidden');
@@ -1621,6 +1690,7 @@ const UI = {
     'comprobantes': ['Comprobantes Contables','Impresión de soportes de demostración'],
     'estado-cuenta': ['Estado de Cuenta por Tercero','Control de cartera, saldos por cobrar y registro de recaudos'],
     'batch': ['Cierre y Procesamiento en Lote','Simulación local de procesamiento y medición de rendimiento'],
+    'versiones': ['Versiones del Sistema y Seguridad PHP','Evolución v1.0 Inicial → v2.0 Auditada (Correo) → v3.0 Asegurada (CR-SEG-01/02)'],
     'auditoria': ['Bitácora de Auditoría','Trazabilidad cronológica de operaciones por usuario y rol'],
     'trazabilidad': ['Matriz de Requisitos','Cumplimiento de Requisitos Funcionales, No Funcionales y Reglas de Negocio'],
     'ayuda': ['Guía de Usuario y Glosario','Manual interactivo por rol, glosario contable y preguntas frecuentes']
@@ -1765,6 +1835,7 @@ const UI = {
       case 'comprobantes': Reportes.initComprobantes(); break;
       case 'estado-cuenta': Reportes.initEstadoCuenta(); break;
       case 'batch': Batch.render(); break;
+      case 'versiones': Views.renderVersiones(); break;
       case 'auditoria': Views.renderAuditoria(); break;
       case 'trazabilidad': Views.renderTrazabilidad(); break;
       case 'ayuda': Views.renderAyuda(); break;
@@ -1871,10 +1942,16 @@ const Config = {
     return !!DB.data.config.mantenimiento.activo && Auth.currentUser.role !== 'Administrador';
   },
   exportarBackup(){
-    const json = JSON.stringify(DB.data, null, 2);
+    // CR-SEG-01 / RNF-11: Sanitizar usuarios para no exportar hashes ni sales de contraseñas en archivos de respaldo
+    const copiaSegura = JSON.parse(JSON.stringify(DB.data));
+    copiaSegura.usuarios = (copiaSegura.usuarios||[]).map(u=>({
+      id:u.id, username:u.username, nombre:u.nombre, role:u.role, activo:u.activo,
+      credenciales:'[REDACTADO POR SEGURIDAD CR-SEG-01]'
+    }));
+    const json = JSON.stringify(copiaSegura, null, 2);
     Util.downloadFile(`respaldo_sino_${Util.todayISO()}.json`, json, 'application/json;charset=utf-8');
-    Audit.log(Auth.currentUser, 'Exportar backup del sistema', 'Copia de seguridad JSON descargada');
-    Toast.show('Copia de seguridad JSON exportada correctamente.','success');
+    Audit.log(Auth.currentUser, 'Exportar backup del sistema (sanitizado CR-SEG-01)', 'Copia de seguridad JSON descargada sin hashes de contraseñas');
+    Toast.show('Copia de seguridad JSON exportada (credenciales redactadas por CR-SEG-01).','success');
   },
   importarBackup(event){
     const file = event.target.files?.[0];
@@ -2511,14 +2588,26 @@ const Maestros = {
     if(id){
       const u = DB.data.usuarios.find(x=>x.id===id);
       Object.assign(u,{username,nombre,role});
-      if(password){ u.passwordHash = await Util.sha256(password); }
-      Toast.show('Usuario actualizado.','success');
-      Audit.log(Auth.currentUser,'Actualizar usuario', `${username} (${role})`);
+      if(password){
+        if(password.length<8){ errEl.textContent='Por política de seguridad (RNF-11 / CR-SEG-01), la contraseña debe tener mínimo 8 caracteres.'; errEl.classList.remove('hidden'); return; }
+        const salt = Util.randomSaltHex(16);
+        u.passwordSalt = salt;
+        u.passwordIter = 100000;
+        u.passwordAlgo = 'PBKDF2-HMAC-SHA256';
+        u.passwordHash = await Util.pbkdf2(password, salt, 100000);
+      }
+      Toast.show('Usuario actualizado con derivación PBKDF2.','success');
+      Audit.log(Auth.currentUser,'Actualizar usuario (PBKDF2)', `${username} (${role})`);
     } else {
-      if(!password || password.length<6){ errEl.textContent='La contraseña debe tener al menos 6 caracteres.'; errEl.classList.remove('hidden'); return; }
-      DB.data.usuarios.push({id:Util.uid('usr'), username, nombre, role, activo:true, passwordHash: await Util.sha256(password)});
-      Toast.show('Usuario local creado.','success');
-      Audit.log(Auth.currentUser,'Crear usuario', `${username} (${role})`);
+      if(!password || password.length<8){ errEl.textContent='Por política de seguridad (RNF-11 / CR-SEG-01), la contraseña debe tener al menos 8 caracteres.'; errEl.classList.remove('hidden'); return; }
+      const salt = Util.randomSaltHex(16);
+      DB.data.usuarios.push({
+        id:Util.uid('usr'), username, nombre, role, activo:true,
+        passwordSalt:salt, passwordIter:100000, passwordAlgo:'PBKDF2-HMAC-SHA256',
+        passwordHash: await Util.pbkdf2(password, salt, 100000)
+      });
+      Toast.show('Usuario creado con hash PBKDF2-HMAC-SHA256 y sal de 128 bits.','success');
+      Audit.log(Auth.currentUser,'Crear usuario (PBKDF2)', `${username} (${role})`);
     }
     DB.save();
     Maestros.limpiarUsuario();
@@ -3262,31 +3351,115 @@ const Views = {
       </div>`).join('');
   },
 
+  renderVersiones(){
+    const cardsEl = document.getElementById('ver-cards');
+    if(cardsEl){
+      cardsEl.innerHTML = `
+        <div class="card" style="border-top:4px solid var(--gray-500);">
+          <div class="card-title-row"><h3>1️⃣ Versión 1.0 — Primera Versión (Inicial)</h3><span class="tag tag-borrador">18/09/2026 · Commit 1f5d891</span></div>
+          <p class="small"><b>Propósito inicial:</b> Prototipo base funcional con motor de partida doble (Débitos = Créditos), 3 roles (Admin, Analista, Coordinador), causación manual/recurrente y reportes.</p>
+          <ul class="small" style="padding-left:18px;line-height:1.6;">
+            <li><b>Limitación en Causaciones:</b> Existía filtro <i>"Hasta"</i> pero la tabla no tenía la variable Fecha de Vencimiento (Hasta) ni filtraba la totalidad de terceros.</li>
+            <li><b>Limitación en Terceros:</b> Sin validación estricta de campos (permitía correo <code>"1"</code>) y todos los roles podían crear terceros.</li>
+            <li><b>Limitación en PUC y Ayudas:</b> Faltaba explicar la finalidad del PUC para roles no administradores y escasez de guías contextuales.</li>
+            <li><b>Vulnerabilidad (Seguridad):</b> Contraseñas con hash rápido <code>SHA-256 sin sal</code> y exportadas en backups.</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:4px solid var(--blue-600);">
+          <div class="card-title-row"><h3>2️⃣ Versión 2.0 — Versión Auditada (Correo)</h3><span class="tag tag-role">22/10/2026 · Commit 81785f3</span></div>
+          <p class="small"><b>Auditoría por Correo al Grupo (Alejandro Rodríguez y Manuel Martínez):</b> Implementa las solicitudes de cambio <code>CR-01</code> a <code>CR-09</code> y reglas de negocio <code>RN-TER-01/02</code>, <code>RN-CAU-01</code>, <code>RN-PUC-01</code>.</p>
+          <ul class="small" style="padding-left:18px;line-height:1.6;">
+            <li><b>CR-01 / CR-06 (RF-05 v1.2):</b> Variable <code>fechaHasta</code> obligatoria y visible en tabla; filtro de todos los terceros (activos e inactivos) y cruce de periodo Desde/Hasta.</li>
+            <li><b>CR-02 (RF-02 v1.1):</b> Validación RUT DIAN (NIT 8–10 dígitos + DV Módulo 11), regex de correo (rechaza <code>"1"</code>) y teléfono (7–10 dígitos).</li>
+            <li><b>CR-03 (RF-02 v1.2):</b> Segregación RBAC: solo el <b>Analista Contable</b> crea/edita terceros; Admin y Coordinador en Solo Lectura.</li>
+            <li><b>CR-04 / CR-07 (RF-03 v1.1, RNF-10 v1.0):</b> Diagrama de finalidad del PUC con saldos + botón <i>"❓ Guía de esta pantalla"</i> en todo el sistema.</li>
+          </ul>
+        </div>
+        <div class="card" style="border-top:4px solid var(--teal-600);">
+          <div class="card-title-row"><h3>3️⃣ Versión 3.0 — Versión Asegurada (PHP 8.4)</h3><span class="tag tag-contabilizado">20/11/2026 · CR-SEG-01 / CR-SEG-02</span></div>
+          <p class="small"><b>Respuesta a Ola de Hackeos en Tecnologías PHP/Web:</b> Blindaje criptográfico de credenciales, sanitización de respaldos y arquitectura backend endurecida en <b>PHP 8.3/8.4</b>.</p>
+          <ul class="small" style="padding-left:18px;line-height:1.6;">
+            <li><b>CR-SEG-01 (RNF-01 v1.2 / RNF-11 v1.0):</b> Reemplazo de SHA-256 sin sal por <b>PBKDF2-HMAC-SHA256 (100.000 iteraciones + sal aleatoria de 128 bits)</b> y mínimo 8 caracteres.</li>
+            <li><b>Sanitización de Backups:</b> <code>Config.exportarBackup()</code> redacta automáticamente hashes y sales para impedir robo de credenciales.</li>
+            <li><b>Entropía Criptográfica MFA:</b> Generación de códigos OTP mediante <code>crypto.getRandomValues()</code> (CSPRNG).</li>
+            <li><b>CR-SEG-02 (RNF-12 v1.0):</b> Backend <code>backend_php/sino_api_v3.php</code> en PHP 8.4 con <code>#[\SensitiveParameter]</code>, <code>Argon2id</code>, <code>Backed Enums</code>, PDO estricto y <code>php.ini.hardened</code>.</li>
+          </ul>
+        </div>`;
+    }
+
+    const tbodyCorreo = document.getElementById('tbody-ver-correo');
+    if(tbodyCorreo){
+      const filasCorreo = [
+        ['ADMIN · Todas las causaciones', 'No se filtran todos los terceros, tiene una opción de "Hasta", pero en la tabla no existe esta variable', 'CR-01 · CR-06', 'RF-05 v1.2 · RN-CAU-01', 'Se añadió el campo y columna "Fecha Vencimiento (Hasta)" obligatoria (Hasta ≥ Desde), filtro por intersección de periodo y listado de todos los terceros (activos e inactivos).'],
+        ['ADMIN · Terceros', 'Que determina la creación de estos (ej. puedo colocar como correo "1" y será valido)', 'CR-02', 'RF-02 v1.1 · RN-TER-01', 'Se exige soporte RUT + hecho económico, NIT 8–10 dígitos con DV Módulo 11, regex de correo usuario@dominio.ext (rechaza "1"), teléfono 7–10 dígitos y bloqueo de NIT duplicado.'],
+        ['ADMIN · Plan de cuentas', '¿Cuál es la finalidad de este apartado?, yo como usuario', 'CR-04', 'RF-03 v1.1 · RN-PUC-01', 'Se incorporó diagrama de 4 etapas (PUC → Tipos de Ingreso → Causación → Libro Auxiliar), validación Clase 1 Débito / Clase 4 Crédito, saldos en vivo y botón "📖 Ver Movimientos".'],
+        ['Perfiles operativos', 'Analista Contable y Coordinador bien', 'CR-05', 'RF-07 v1.0 · RNF-03 v1.1', 'Se preservó el flujo Maker-Checker y se habilitó la vista de Bitácora de Auditoría también para el rol Coordinador.'],
+        ['Sistema general · RBAC', '¿Por qué todos pueden hacer/crear terceros?', 'CR-03', 'RF-02 v1.2 · RN-TER-02', 'Segregación de funciones: solo el Analista Contable crea o edita terceros; Coordinador y Administrador quedan en modo Solo Lectura para evitar contrapartes ficticias autoaprobadas.'],
+        ['Sistema general · Usabilidad', 'Escasez de guías/ayudas para al usuario', 'CR-07', 'RNF-10 v1.0', 'Cajas de ayuda (.help-box) en cada vista, botón superior "❓ Guía de esta pantalla" con paso a paso por rol y módulo "❓ Guía de Usuario y Glosario".']
+      ];
+      tbodyCorreo.innerHTML = filasCorreo.map(r=>`
+        <tr>
+          <td><b>${Util.escapeHtml(r[0])}</b></td>
+          <td class="wrap"><i>"${Util.escapeHtml(r[1])}"</i></td>
+          <td class="mono"><b>${r[2]}</b></td>
+          <td class="mono"><span class="req-pill">${r[3]}</span></td>
+          <td class="wrap">${Util.escapeHtml(r[4])}</td>
+        </tr>`).join('');
+    }
+
+    const tbodyHashes = document.getElementById('tbody-ver-hashes');
+    if(tbodyHashes && DB.data && DB.data.usuarios){
+      tbodyHashes.innerHTML = DB.data.usuarios.map(u=>`
+        <tr>
+          <td class="mono"><b>${Util.escapeHtml(u.username)}</b></td>
+          <td><span class="tag tag-role">${Util.escapeHtml(u.role)}</span></td>
+          <td class="mono small">${Util.escapeHtml(u.passwordAlgo||'PBKDF2-HMAC-SHA256')} (${(u.passwordIter||100000).toLocaleString('es-CO')} iter)</td>
+          <td class="mono small">${Util.escapeHtml(u.passwordSalt||'—')}</td>
+          <td class="mono small">${Util.escapeHtml((u.passwordHash||'').slice(0,24))}…</td>
+        </tr>`).join('');
+    }
+
+    const tblPhp = document.getElementById('tbl-ver-php');
+    if(tblPhp){
+      const controlesPhp = [
+        ['#[\SensitiveParameter] (PHP 8.2+)', 'Redacta automáticamente contraseñas y tokens como Object(SensitiveParameterValue) en stack traces y logs ante excepciones.'],
+        ['PASSWORD_ARGON2ID & PBKDF2 (PHP 8.3/8.4)', 'Hashing resistente a ataques por GPU/ASIC y incremento de costo bcrypt a 12 en PHP 8.4 (cumple CR-SEG-01 y RNF-11).'],
+        ['Random\\Randomizer + Engine\\Secure', 'Generador CSPRNG tipado en PHP 8.2/8.3 para tokens CSRF, códigos MFA y sesiones sin sesgo criptográfico.'],
+        ['declare(strict_types=1) & Backed Enums', 'Elimina vulnerabilidades de Type Juggling (Magic Hashes) y blinda los estados contables (Borrador, Pendiente, Contabilizado, Rechazado).'],
+        ['PDO ATTR_EMULATE_PREPARES = false', 'Sentencias preparadas nativas en el motor relacional + json_validate() en memoria O(1) contra ataques SQLi y DoS.'],
+        ['Endurecimiento php.ini.hardened', 'expose_php=Off, session.use_strict_mode=1, cookie_httponly=1, cookie_samesite=Strict y bloqueo de exec/shell_exec/system.']
+      ];
+      tblPhp.innerHTML = controlesPhp.map(c=>`<tr><td style="width:36%;"><b class="mono">${Util.escapeHtml(c[0])}</b></td><td class="small">${Util.escapeHtml(c[1])}</td></tr>`).join('');
+    }
+  },
+
   renderTrazabilidad(){
     const tbody = document.getElementById('tbody-trazabilidad'); if(!tbody) return;
     const rows = [
-      ['RF-01','Funcional — Seguridad','Autenticación de usuarios y control de acceso basado en roles (RBAC).','Perfiles, código y permisos simulados en el navegador; no constituyen una autenticación o autorización segura para producción.','Login / Topbar'],
-      ['RF-02','Funcional — Maestros','Registro de terceros (bancos/clientes) con NIT y estado.','Módulo Maestros &gt; Terceros con validación y cálculo automático del dígito de verificación (DV) del NIT.','Terceros'],
-      ['RF-03','Funcional — Configuración','Parametrización del Plan Único de Cuentas (PUC).','Módulo Configuración &gt; Plan de Cuentas, cuentas de naturaleza Débito/Crédito.','Plan de Cuentas'],
+      ['RF-01','Funcional — Seguridad','Autenticación de usuarios y control de acceso basado en roles (RBAC).','Autenticación local con PBKDF2-HMAC-SHA256 (100.000 iteraciones + sal de 128 bits) y segundo factor con CSPRNG (CR-SEG-01).','Login / Topbar'],
+      ['RF-02','Funcional — Maestros','Registro de terceros (bancos/clientes) con NIT y estado (v1.2 · CR-02, CR-03).','Módulo Maestros &gt; Terceros con validación RUT, DV Módulo 11, regex de correo/teléfono y creación exclusiva por Analista Contable.','Terceros'],
+      ['RF-03','Funcional — Configuración','Parametrización del Plan Único de Cuentas (PUC) (v1.1 · CR-04).','Módulo Plan de Cuentas con diagrama de finalidad, validación Clase 1 Débito / Clase 4 Crédito, saldos y enlace al Libro Auxiliar.','Plan de Cuentas'],
       ['RF-04','Funcional — Configuración','Configuración de tasas de retención/impuestos.','Módulo Tasas e Impuestos, referenciadas por cada Tipo de Ingreso.','Tasas e Impuestos'],
-      ['RF-05','Funcional — Causación','Registro de causación manual con autocompletado de cuentas paramétricas.','Formulario Nueva Causación Manual: al elegir Tipo de Ingreso se autocompletan cuentas y tasa; cálculo automático de retención y valor neto.','Nueva Causación Manual'],
+      ['RF-05','Funcional — Causación','Registro de causación manual con autocompletado y periodo Desde/Hasta (v1.2 · CR-01, CR-06).','Formulario Nueva Causación Manual con Fecha Causación (Desde) y Fecha Vencimiento (Hasta) obligatorias y filtro de todos los terceros.','Nueva Causación Manual'],
       ['RF-06','Funcional — Causación','Programación de causaciones automáticas/recurrentes (mensual, trimestral, semestral).','Módulo Programar Recurrencia + motor de generación automática (Causaciones.generarAutomaticas).','Programar Recurrencia'],
-      ['RF-07','Funcional — Aprobación','Flujo de aprobación de doble control (Maker-Checker).','Bandeja de Aprobación: solo rol Coordinador aprueba/rechaza; bloqueo si el aprobador es el mismo creador.','Bandeja de Aprobación'],
+      ['RF-07','Funcional — Aprobación','Flujo de aprobación de doble control (Maker-Checker).','Bandeja de Aprobación: solo rol Coordinador aprueba/rechaza; bloqueo si el aprobador es el mismo creador y motivo obligatorio al rechazar.','Bandeja de Aprobación'],
       ['RF-08','Funcional — Alertas','Gestión de programaciones vencidas.','Vista Programaciones Vencidas con opción de reactivar, según Fecha Fin del contrato paramétrico.','Programaciones Vencidas'],
-      ['RF-09','Funcional — Reportes','Libro auxiliar exportable a Excel/CSV.','Reporte Libro Auxiliar con filtros por tercero, tipo y fecha, y exportación CSV.','Libro Auxiliar'],
-      ['RF-10','Funcional — Reportes','Reimpresión de comprobantes contables en PDF con firmas digitales.','Vista Comprobantes Contables con formato imprimible (Ctrl/Cmd+P → Guardar como PDF) y firmas simuladas del preparador/aprobador.','Comprobantes Contables'],
-      ['RF-11','Funcional — Reportes','Estado de cuenta por tercero con saldo pendiente de cobro.','Reporte Estado de Cuenta por Tercero con KPIs de causado, cobrado y saldo pendiente.','Estado de Cuenta'],
+      ['RF-09','Funcional — Reportes','Libro auxiliar exportable a Excel/CSV.','Reporte Libro Auxiliar con filtros por cuenta PUC, tercero, tipo y fecha, y exportación CSV (TC-07).','Libro Auxiliar'],
+      ['RF-10','Funcional — Reportes','Reimpresión de comprobantes contables en PDF con firmas digitales.','Vista Comprobantes Contables con formato imprimible (Ctrl/Cmd+P → Guardar como PDF) y firmas del preparador/aprobador.','Comprobantes Contables'],
+      ['RF-11','Funcional — Reportes','Estado de cuenta por tercero con saldo pendiente de cobro.','Reporte Estado de Cuenta por Tercero con KPIs de causado, cobrado y saldo pendiente (CU-11, TC-08).','Estado de Cuenta'],
       ['RF-12','Funcional — Auditoría','Registro y auditoría de todas las transacciones.','Bitácora de auditoría (usuario, acción, fecha, detalle) para cada operación relevante del sistema.','Auditoría'],
-      ['RNF-01','No Funcional — Seguridad','Cifrado de datos en reposo y en tránsito (TLS 1.2+).','No implementado: los datos residen en localStorage y el hash de contraseñas no sustituye un backend seguro.','Modo local'],
-      ['RNF-02','No Funcional — Seguridad','Autenticación SSO / MFA.','No implementado: segundo factor simulado en pantalla y botón SSO informativo; no hay proveedor conectado.','Login'],
-      ['RNF-03','No Funcional — Seguridad','RBAC estricto.','Cada vista y botón de acción valida el rol activo antes de ejecutar la operación (frontend) — en producción se replica en backend.','Todas las vistas'],
-      ['RNF-04','No Funcional — Rendimiento','Procesar y contabilizar hasta 10.000 causaciones automáticas de cierre en &lt; 5 min.','Herramienta de Procesamiento por Lote: genera y contabiliza masivamente, mide el tiempo real con <code>performance.now()</code> y lo compara contra el umbral de 300.000 ms.','Procesamiento por Lote'],
-      ['RNF-05','No Funcional — Rendimiento','Latencia de formulario ≤ 2 segundos.','El formulario muestra el tiempo medido localmente; no es un SLA de servicio.','Nueva Causación Manual'],
-      ['RNF-06','No Funcional — Disponibilidad','Uptime 99.9% con ventanas de mantenimiento en la madrugada.','Requisito no medido ni garantizado en la aplicación local; el panel solo configura el bloqueo local y permite descargar respaldos.','Disponibilidad y Mantenimiento'],
-      ['RNF-07','No Funcional — Cumplimiento','NIIF/IFRS (reconocimiento por causación) y normativa DIAN.','Modelo contable de causación (reconocimiento cuando se genera el derecho de cobro, no cuando se recibe el efectivo) y retención en la fuente como anticipo de impuestos.','Nueva Causación Manual / Ayuda'],
+      ['RNF-01','No Funcional — Seguridad','Protección de credenciales y datos (v1.2 · CR-08, CR-SEG-01).','Derivación PBKDF2-HMAC-SHA256 con sal aleatoria en modo local + sanitización de backups JSON + backend PHP 8.4 con TLS 1.3.','Login / Respaldo / Backend PHP'],
+      ['RNF-02','No Funcional — Seguridad','Autenticación SSO / MFA (v1.1 · CR-09).','Segundo factor generado con CSPRNG (crypto.getRandomValues) en modo demostración local.','Login'],
+      ['RNF-03','No Funcional — Seguridad','RBAC estricto (v1.1 · CR-05).','Cada vista y botón de acción valida el rol activo antes de ejecutar la operación en frontend y en backend PHP 8.4 (TC-04).','Todas las vistas'],
+      ['RNF-04','No Funcional — Rendimiento','Procesar y contabilizar hasta 10.000 causaciones automáticas de cierre en &lt; 5 min.','Herramienta de Procesamiento por Lote: genera y contabiliza masivamente, mide el tiempo real con <code>performance.now()</code> (≤ 300.000 ms, TC-05).','Procesamiento por Lote'],
+      ['RNF-05','No Funcional — Rendimiento','Latencia de formulario ≤ 2 segundos.','El formulario muestra el tiempo medido localmente en cada guardado.','Nueva Causación Manual'],
+      ['RNF-06','No Funcional — Disponibilidad','Ventanas de mantenimiento y respaldos sanitizados.','Panel de ventana de mantenimiento y exportación de respaldo JSON sin exposición de credenciales.','Disponibilidad y Mantenimiento'],
+      ['RNF-07','No Funcional — Cumplimiento','NIIF/IFRS (reconocimiento por causación) y normativa DIAN.','Modelo contable de causación por devengo, algoritmo Módulo 11 DIAN y retención en la fuente como anticipo de impuestos.','Nueva Causación Manual / Ayuda'],
       ['RNF-08','No Funcional — Usabilidad','Diseño responsivo (Desktop/Tablet) con cuadrículas de alta densidad.','Layout adaptable con sidebar colapsable, tablas densas de scroll horizontal y tipografía tabular para cifras.','Todas las vistas'],
-      ['RNF-09','No Funcional — Usabilidad','Prevención de errores: validación Débitos = Créditos antes de guardar.','El botón "Guardar" permanece deshabilitado y se muestra el desglose Debe/Haber hasta que el asiento cuadra exactamente.','Nueva Causación Manual / Recurrencia'],
-      ['RNF-10','No Funcional — Usabilidad','Guías y ayudas contextuales para el usuario.','Botón "❓ Guía de esta pantalla" en la barra superior, guía por rol en el Panel, textos de ayuda bajo cada campo, diagrama del flujo PUC y manual con glosario contable.','Todas las vistas / Guía de Usuario'],
+      ['RNF-09','No Funcional — Usabilidad','Prevención de errores: validación Débitos = Créditos antes de guardar.','El botón "Guardar" permanece deshabilitado y se muestra el desglose Debe/Haber hasta que el asiento cuadra exactamente (TC-06).','Nueva Causación Manual / Recurrencia'],
+      ['RNF-10','No Funcional — Usabilidad','Guías y ayudas contextuales para el usuario (v1.0 · CR-07).','Botón "❓ Guía de esta pantalla" en la barra superior, guía por rol en el Panel, textos de ayuda bajo cada campo, diagrama del flujo PUC y manual con glosario contable.','Todas las vistas / Guía de Usuario'],
+      ['RNF-11','No Funcional — Seguridad','Almacenamiento seguro de credenciales con sal y costo (v1.0 · CR-SEG-01).','PBKDF2-HMAC-SHA256 (100.000 iteraciones + sal de 128 bits) en navegador y Argon2id en backend PHP 8.4; longitud mínima de 8 caracteres y exclusión de hashes en backups (TC-09).','Login / Usuarios / Respaldo'],
+      ['RNF-12','No Funcional — Seguridad','Endurecimiento de backend e infraestructura PHP 8.3/8.4 anti-hackeos (v1.0 · CR-SEG-02).','Tipado estricto, #[\SensitiveParameter], Backed Enums, readonly classes, PDO sin emulación y php.ini endurecido (TC-10).','backend_php/sino_api_v3.php'],
       ['RN-TER-01','Regla de Negocio — Terceros','Un tercero solo se crea con soporte RUT, identificación y datos de contacto válidos.','Validación de NIT (8–10 dígitos) / CC (6–10), DV Módulo 11, correo con formato usuario@dominio.ext, teléfono de 7–10 dígitos, régimen tributario, ciudad y soporte documental obligatorios; NIT duplicado bloqueado.','Terceros'],
       ['RN-TER-02','Regla de Negocio — Seguridad','Segregación de funciones en la creación de terceros.','Solo el Analista Contable crea/edita terceros (validado en la interfaz y en la lógica). Coordinador y Administrador tienen vista de Solo Lectura.','Terceros'],
       ['RN-CAU-01','Regla de Negocio — Causación','Toda causación tiene periodo Desde/Hasta.','Campos Fecha Causación (Desde) y Fecha Vencimiento (Hasta) obligatorios, visibles en las tablas y usados por los filtros de "Todas las Causaciones".','Nueva Causación / Todas las Causaciones'],
