@@ -1,0 +1,40 @@
+; ============================================================================
+; SINO v3.0 — Configuración Endurecida php.ini (CR-SEG-02 / RNF-12 v1.0)
+; Mitigación contra vulnerabilidades y hackeos en despliegues PHP 8.3 / 8.4
+; ============================================================================
+
+[PHP]
+; 1. Ocultamiento de huella tecnológica y prevención de fuga de información
+expose_php = Off
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+error_reporting = E_ALL
+zend.exception_ignore_args = On
+zend.exception_string_param_max_len = 0
+
+; 2. Bloqueo de inclusión/ejecución remota de archivos (RFI / LFI / SSRF)
+allow_url_fopen = Off
+allow_url_include = Off
+enable_dl = Off
+
+; 3. Deshabilitación de funciones de ejecución de comandos en sistema operativo (RCE)
+disable_functions = exec,passthru,shell_exec,system,proc_open,popen,pcntl_exec,dl,show_source,highlight_file
+
+; 4. Blindaje de sesiones contra Session Hijacking, Fixation y CSRF (RNF-01 / RNF-12)
+session.use_strict_mode = 1
+session.use_cookies = 1
+session.use_only_cookies = 1
+session.cookie_httponly = 1
+session.cookie_secure = 1
+session.cookie_samesite = "Strict"
+session.sid_length = 48
+session.sid_bits_per_character = 6
+session.gc_maxlifetime = 1800
+
+; 5. Límites de memoria y ejecución contra Denegación de Servicio (DoS) y cumplimiento RNF-04
+max_execution_time = 15
+max_input_time = 15
+memory_limit = 128M
+post_max_size = 4M
+file_uploads = Off
